@@ -35,28 +35,28 @@ class CelestialApp:
 
     @staticmethod
     def moonrise_callback(hermes, intent_message):
-        if (intent_message.intent.probability < INTENT_CONFIDENCE_THRESHOLD):
+        if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
             return
         hermes.publish_end_session(intent_message.session_id,
         "The moon will rise at 10 PM today")
 
     @staticmethod
     def moonset_callback(hermes, intent_message):
-        if (intent_message.intent.probability < INTENT_CONFIDENCE_THRESHOLD):
+        if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
             return
         hermes.publish_end_session(intent_message.session_id,
         "The moon will set at 7 AM tomorrow")
 
     @staticmethod
     def sunrise_callback(hermes, intent_message):
-        if (intent_message.intent.probability < INTENT_CONFIDENCE_THRESHOLD):
+        if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
             return
         hermes.publish_end_session(intent_message.session_id,
         "The sun will rise at 6:45 AM today")
 
     @staticmethod
     def sunset_callback(hermes, intent_message):
-        if (intent_message.intent.probability < INTENT_CONFIDENCE_THRESHOLD):
+        if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
             return
         hermes.publish_end_session(intent_message.session_id,
         "The sun will set at 5:15 PM today")
