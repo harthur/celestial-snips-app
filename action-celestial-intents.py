@@ -55,7 +55,7 @@ class CelestialApp:
     # register callback function to its intent and start listen to MQTT bus
     def start_blocking(self):
         with Hermes(MQTT_ADDR) as h:
-            h.subscribe_intent('harthur:Moonrise', self.compute_sum_callback)\
+            h.subscribe_intent('harthur:Moonrise', self.moonrise_callback)\
             .subscribe_intent('intent_2', self.intent_2_callback)\
             .loop_forever()
 
