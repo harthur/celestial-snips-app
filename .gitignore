@@ -1,0 +1,6 @@
+lvenv/
+venv/
+*.pyc
+config.ini
+.idea/
+.vscode/
