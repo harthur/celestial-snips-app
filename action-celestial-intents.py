@@ -61,21 +61,6 @@ class CelestialApp:
         hermes.publish_end_session(intent_message.session_id,
         "The sun will set at 5:15 PM today")
 
-    @staticmethod
-    def intent_2_callback(hermes, intent_message):
-
-        # terminate the session first if not continue
-        hermes.publish_end_session(intent_message.session_id, "")
-
-        # action code goes here...
-        print('[Received] intent: {}'.format(
-            intent_message.intent.intent_name))
-
-        # if need to speak the execution result by tts
-        hermes.publish_start_session_notification(
-            intent_message.site_id,
-            "Action 2", "")
-
     # register callback function to its intent and start listen to MQTT bus
     def start_blocking(self):
         with Hermes(MQTT_ADDR) as h:
@@ -83,7 +68,6 @@ class CelestialApp:
             .subscribe_intent('harthur:Moonset', self.moonset_callback)\
             .subscribe_intent('harthur:Sunrise', self.sunrise_callback)\
             .subscribe_intent('harthur:Sunset', self.sunset_callback)\
-            .subscribe_intent('intent_2', self.intent_2_callback)\
             .loop_forever()
 
 
