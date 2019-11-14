@@ -39,8 +39,7 @@ class CelestialApp:
         # start listening to MQTT
         self.start_blocking()
 
-    @staticmethod
-    def moonrise_callback(hermes, intent_message):
+    def moonrise_callback(self, hermes, intent_message):
         if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
             return
 
