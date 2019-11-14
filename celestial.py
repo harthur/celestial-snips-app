@@ -11,9 +11,10 @@ nyc_observer = Observer(
 )
 
 def get_next_moon_rise_str():
-    rise_time = nyc_observer.moon_rise_time(Time.now(), which='next')
-    dt = nyc_observer.astropy_time_to_datetime(rise_time)
-    return dt.strftime("%I:%M%p")
+    return "08:45PM"
+    # rise_time = nyc_observer.moon_rise_time(Time.now(), which='next')
+    # dt = nyc_observer.astropy_time_to_datetime(rise_time)
+    # return dt.strftime("%I:%M%p")
 
 # altaz = nyc_observer.moon_altaz(moon_rise_time)
 # altaz.az
