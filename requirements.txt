@@ -1,3 +1,4 @@
 hermes-python>=0.8
 astropy>=3.0
 astroplan>=0.5
+paho-mqtt>=1.5.0

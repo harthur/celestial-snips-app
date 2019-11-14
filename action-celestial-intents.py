@@ -2,6 +2,7 @@
 
 from snipsTools import SnipsConfigParser
 from hermes_python.hermes import Hermes
+from paho.mqtt import client
 
 import celestial
 
@@ -32,6 +33,9 @@ class CelestialApp:
         except Exception:
             self.config = None
 
+        self.mqtt = client.Client()
+        self.mqtt.connect('127.0.0.1', 1883)
+
         # start listening to MQTT
         self.start_blocking()
 
@@ -40,11 +44,15 @@ class CelestialApp:
         if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
             return
 
-        hermes.publish_continue_session(intent_message.session_id, "")
+        # hermes.publish_continue_session(intent_message.session_id, "")
 
         time_str = celestial.get_next_moon_rise_str()
         # hermes.publish_end_session(intent_message.session_id,
         # "The moon will rise at %s today" % time_str)
+
+        self.mqtt.publish("hermes/tts/say",
+            '{{"text": "%s","siteId": "default", "lang": "en"}}' % time_str,
+            qos=2)
 
         hermes.publish_start_session_notification(intent_message.site_id,
           "The moon will rise at %s today" % time_str, "")
