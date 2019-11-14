@@ -1,2 +1,2 @@
 hermes-python>=0.8
-astroplan>=0.5
+astropy>=3.2
