@@ -15,8 +15,5 @@ def get_next_moon_rise_str():
     dt = nyc_observer.astropy_time_to_datetime(rise_time)
     return dt.strftime("%I:%M%p")
 
-nyc_observer.astropy_time_to_datetime(moon_rise_time)
-
-altaz = nyc_observer.moon_altaz(moon_rise_time)
-
-altaz.az
+# altaz = nyc_observer.moon_altaz(moon_rise_time)
+# altaz.az
