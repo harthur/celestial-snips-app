@@ -40,7 +40,7 @@ class CelestialApp:
         if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
             return
 
-        hermes.publish_end_session(intent_message.session_id, "")
+        hermes.publish_continue_session(intent_message.session_id, "")
 
         time_str = celestial.get_next_moon_rise_str()
         # hermes.publish_end_session(intent_message.session_id,
