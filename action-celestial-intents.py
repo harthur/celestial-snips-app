@@ -39,9 +39,15 @@ class CelestialApp:
     def moonrise_callback(hermes, intent_message):
         if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
             return
+
+        hermes.publish_end_session(intent_message.session_id, "")
+
         time_str = celestial.get_next_moon_rise_str()
-        hermes.publish_end_session(intent_message.session_id,
-        "The moon will rise at %s today" % time_str)
+        # hermes.publish_end_session(intent_message.session_id,
+        # "The moon will rise at %s today" % time_str)
+
+        hermes.publish_start_session_notification(intent_message.site_id,
+          "The moon will rise at %s today" % time_str, "")
 
     @staticmethod
     def moonset_callback(hermes, intent_message):
