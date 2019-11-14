@@ -1,1 +1,2 @@
 hermes-python>=0.8
+astropy>=3.2
