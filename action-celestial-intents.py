@@ -41,7 +41,7 @@ class CelestialApp:
             return
         time_str = celestial.get_next_moon_rise_str()
         hermes.publish_end_session(intent_message.session_id,
-        f"The moon will rise at {time_str} today")
+        "The moon will rise at %s today" % time_str)
 
     @staticmethod
     def moonset_callback(hermes, intent_message):
