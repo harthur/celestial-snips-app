@@ -3,6 +3,8 @@
 from snipsTools import SnipsConfigParser
 from hermes_python.hermes import Hermes
 
+import celestial
+
 # imported to get type check and IDE completion
 from hermes_python.ontology.dialogue.intent import IntentMessage
 
@@ -37,8 +39,9 @@ class CelestialApp:
     def moonrise_callback(hermes, intent_message):
         if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
             return
+        time_str = celestial.get_next_moon_rise_str()
         hermes.publish_end_session(intent_message.session_id,
-        "The moon will rise at 10 PM today")
+        f"The moon will rise at {time_str} today")
 
     @staticmethod
     def moonset_callback(hermes, intent_message):
