@@ -2,12 +2,7 @@
 
 from snipsTools import SnipsConfigParser
 from hermes_python.hermes import Hermes
-from paho.mqtt import client
-
 import celestial
-
-# imported to get type check and IDE completion
-from hermes_python.ontology.dialogue.intent import IntentMessage
 
 CONFIG_INI = "config.ini"
 
@@ -19,7 +14,7 @@ MQTT_IP_ADDR = "localhost"
 MQTT_PORT = 1883
 MQTT_ADDR = "{}:{}".format(MQTT_IP_ADDR, str(MQTT_PORT))
 
-INTENT_CONFIDENCE_THRESHOLD = 0.7
+INTENT_CONFIDENCE_THRESHOLD = 0.65
 
 class CelestialApp:
     """class used to wrap action code with mqtt connection
@@ -33,9 +28,6 @@ class CelestialApp:
         except Exception:
             self.config = None
 
-        self.mqtt = client.Client()
-        self.mqtt.connect('127.0.0.1', 1883)
-
         # start listening to MQTT
         self.start_blocking()
 
@@ -43,25 +35,20 @@ class CelestialApp:
         if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
             return
 
-        # hermes.publish_continue_session(intent_message.session_id, "")
-
         time_str = celestial.get_next_moon_rise_str()
+
         hermes.publish_end_session(intent_message.session_id,
           "The moon will rise at %s today" % time_str)
-
-        # self.mqtt.publish("hermes/tts/say",
-        #     '{{"text": "%s","siteId": "default", "lang": "en"}}' % time_str,
-        #     qos=2)
-
-        # hermes.publish_start_session_notification(intent_message.site_id,
-        #   "The moon will rise at %s today" % time_str, "")
 
     @staticmethod
     def moonset_callback(hermes, intent_message):
         if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
             return
+
+        time_str = celestial.get_next_moon_set_str()
+
         hermes.publish_end_session(intent_message.session_id,
-        "The moon will set at 7 AM tomorrow")
+          "The moon will set at %s" % time_str)
 
     @staticmethod
     def sunrise_callback(hermes, intent_message):
