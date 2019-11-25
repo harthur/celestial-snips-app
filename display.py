@@ -3,7 +3,8 @@ import math
 
 class SenseDisplay():
   """
-  Display 
+  Using the LED display on the Sense HAT to display cardinal direction
+  arrows and moon phases
   """
   size = 8
   
@@ -32,13 +33,18 @@ class SenseDisplay():
   def __init__(self):
     self.sense = SenseHat()
   
-  # Take the cardinal direction in degrees, and display
-  # an "arrow" on Sense HAT pointing in that direction.
   def display_direction(self, degrees=0):
+    """ 
+    Take the cardinal direction in degrees, and display
+    an "arrow" on the Sense HAT pointing in that direction.
+    """
     # Adjust direction to the current orientation of the HAT 
+    north = self.sense.get_compass()
+    adjusted_degrees = (degrees + north) % 360
     
-    
-    on_pixels = self.direction_to_pixels[degrees]
+    closest_cardinal = round(adjusted_degrees / 45) * 45
+
+    on_pixels = self.direction_to_pixels[closest_cardinal]
     pixels = [
       self.on_color if self.loc(i) in on_pixels else self.off_color
       for i in range(64)
@@ -46,10 +52,8 @@ class SenseDisplay():
     self.sense.set_pixels(pixels)
 
 
-
-
 display = SenseDisplay()
-display.display_direction(225)
+display.display_direction(90)
 
 # mark = [
 # O, O, O, O, O, O, O, O,
