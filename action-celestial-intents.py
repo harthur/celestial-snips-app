@@ -45,7 +45,7 @@ class CelestialApp:
 
         print("Time: %s" % time_str)
 
-        self.display.display_direction(90)
+        self.display.display_direction(45)
 
         hermes.publish_end_session(intent_message.session_id,
           "The moon will rise at %s today" % time_str)
