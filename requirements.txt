@@ -1,4 +1,5 @@
 hermes-python>=0.8
 astropy>=3.0
 astroplan>=0.5
+rtimulib>=7.2
 sense_hat>=2.2
