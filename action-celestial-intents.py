@@ -32,10 +32,10 @@ class CelestialApp:
         except Exception:
             self.config = None
 
+        self.display = SenseDisplay()
+
         # start listening to MQTT
         self.start_blocking()
-
-        self.display = SenseDisplay()
 
     def moonrise_callback(self, hermes, intent_message):
         if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
