@@ -2,8 +2,8 @@
 
 from snipsTools import SnipsConfigParser
 from hermes_python.hermes import Hermes
-import celestial
 from display import SenseDisplay
+import celestial
 
 import os
 import pwd
