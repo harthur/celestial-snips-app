@@ -3,6 +3,7 @@
 from snipsTools import SnipsConfigParser
 from hermes_python.hermes import Hermes
 import celestial
+from display import SenseDisplay
 
 CONFIG_INI = "config.ini"
 
@@ -31,11 +32,17 @@ class CelestialApp:
         # start listening to MQTT
         self.start_blocking()
 
+        self.display = SenseDisplay()
+
     def moonrise_callback(self, hermes, intent_message):
         if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
             return
 
         time_str = celestial.get_next_moon_rise_str()
+
+        print("Time: %s" % time_str)
+
+        self.display.display_direction(90)
 
         hermes.publish_end_session(intent_message.session_id,
           "The moon will rise at %s today" % time_str)
