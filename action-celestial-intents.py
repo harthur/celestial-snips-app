@@ -5,6 +5,9 @@ from hermes_python.hermes import Hermes
 import celestial
 from display import SenseDisplay
 
+import os
+import pwd
+
 CONFIG_INI = "config.ini"
 
 # if this skill is supposed to run on the satellite,
@@ -32,6 +35,7 @@ class CelestialApp:
         # start listening to MQTT
         self.start_blocking()
 
+        print("NAME: %s" % pwd.getpwuid(os.getuid()).pw_name)
         self.display = SenseDisplay()
 
     def moonrise_callback(self, hermes, intent_message):
