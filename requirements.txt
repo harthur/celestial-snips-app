@@ -1,4 +1,4 @@
 hermes-python>=0.8
 astropy>=3.0
 astroplan>=0.5
-sense_hat>=2.2
+python3-sense-hat>=2.2
