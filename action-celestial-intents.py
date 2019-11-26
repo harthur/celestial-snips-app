@@ -35,7 +35,7 @@ class CelestialApp:
         # start listening to MQTT
         self.start_blocking()
 
-        print("NAME: %s" % pwd.getpwuid(os.getuid()).pw_name)
+        raise Exception("NAME: %s" % pwd.getpwuid(os.getuid()).pw_name)
         self.display = SenseDisplay()
 
     def moonrise_callback(self, hermes, intent_message):
