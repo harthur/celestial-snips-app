@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.5
+#!/usr/bin/env python3
 
 from snipsTools import SnipsConfigParser
 from hermes_python.hermes import Hermes
