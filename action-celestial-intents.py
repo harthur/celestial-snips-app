@@ -3,7 +3,7 @@
 from snipsTools import SnipsConfigParser
 from hermes_python.hermes import Hermes
 from display import SenseDisplay
-import celestial
+from celestial import Celestial
 
 import os
 import pwd
@@ -21,8 +21,9 @@ MQTT_ADDR = "{}:{}".format(MQTT_IP_ADDR, str(MQTT_PORT))
 INTENT_CONFIDENCE_THRESHOLD = 0.65
 
 class CelestialApp:
-    """class used to wrap action code with mqtt connection
-       please change the name referring to your application
+    """
+    Handlers for intents for a "Celestial" Snips voice assistant
+    Reports Moon and Sun rising and setting times as well as cardinal directions.
     """
 
     def __init__(self):
@@ -33,15 +34,17 @@ class CelestialApp:
             self.config = None
 
         self.display = SenseDisplay()
+        self.celestial = Celestial()
 
-        # start listening to MQTT
+        # Start listening to MQTT
+        # Must be last. Anything after this line won't be reached!
         self.start_blocking()
 
     def moonrise_callback(self, hermes, intent_message):
         if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
             return
 
-        time_str = celestial.get_next_moon_rise_str()
+        time_str = self.celestial.get_next_moon_rise_str()
 
         print("Time: %s" % time_str)
 
@@ -55,7 +58,7 @@ class CelestialApp:
         if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
             return
 
-        time_str = celestial.get_next_moon_set_str()
+        time_str = self.celestial.get_next_moon_set_str()
 
         hermes.publish_end_session(intent_message.session_id,
           "The moon will set at %s" % time_str)
