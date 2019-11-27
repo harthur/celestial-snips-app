@@ -40,7 +40,7 @@ class SenseDisplay():
     """
     # Adjust direction to the current orientation of the HAT 
     north = self.sense.get_compass()
-    adjusted_degrees = (degrees + north) % 360
+    adjusted_degrees = (int(degrees) + north) % 360
     
     closest_cardinal = round(adjusted_degrees / 45) * 45
 
