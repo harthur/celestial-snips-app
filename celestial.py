@@ -32,13 +32,13 @@ class Celestial:
             # Found the first event after the current time.
             # Assumes sequential order in the time file
             if event_dt > now_dt:
-                # angle = day[kind]['azimuth']
-                return event_dt
+                azimuth = day[kind]['azimuth']
+                return (event_dt, azimuth)
 
     def get_next_moon_rise_str(self):
-        rise_dt = self.get_next_moon_event('rise')
-        return rise_dt.strftime("%I:%M%p")
+        (rise_dt, azimuth) = self.get_next_moon_event('rise')
+        return (rise_dt.strftime("%I:%M%p"), azimuth)
 
     def get_next_moon_set_str(self):
-        set_dt = self.get_next_moon_event('set')
-        return set_dt.strftime("%I:%M%p")
+        (set_dt, azimuth) = self.get_next_moon_event('set')
+        return (set_dt.strftime("%I:%M%p"), azimuth)
