@@ -32,6 +32,11 @@ class SenseDisplay():
   
   def __init__(self):
     self.sense = SenseHat()
+
+    # To get good results with the magnetometer you must first calibrate it using
+    # the program in RTIMULib/Linux/RTIMULibCal
+    # The calibration program will produce the file RTIMULib.ini
+    # Copy it into the same folder as your Python code
   
   def display_direction(self, degrees=0):
     """ 
@@ -39,8 +44,7 @@ class SenseDisplay():
     an "arrow" on the Sense HAT pointing in that direction.
     """
     # Adjust direction to the current orientation of the HAT 
-    sense = SenseHat()
-    north = sense.get_compass()
+    north = self.sense.get_compass()
     print("NORTH: %s" % north)
     adjusted_degrees = (int(degrees) + north) % 360
     
