@@ -39,7 +39,7 @@ class Celestial:
             # Assumes sequential order in the time file
             if event_dt > now_dt:
                 print("FOUND", event_dt)
-                day = if event_dt.date() > now_dt.date() then "tomorrow" else "today"
+                day = "tomorrow" if event_dt.date() > now_dt.date() else "today"
                 azimuth = day[event]['azimuth']
 
                 return (event_dt, day, azimuth)
