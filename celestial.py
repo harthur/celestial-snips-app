@@ -16,6 +16,10 @@ class Celestial:
     def get_datetime_from_iso(str):
         return datetime.datetime.strptime(str, '%Y-%m-%dT%H:%M:%S.%fZ')
 
+    @staticmethod
+    def get_time_str(dt):
+        return dt.strftime("%I:%M%p")
+
     def get_next_moon_event(self, event='rise'):
         now_dt = datetime.datetime.now(tz=ET_TZ)
 
@@ -35,14 +39,15 @@ class Celestial:
             # Assumes sequential order in the time file
             if event_dt > now_dt:
                 print("FOUND", event_dt)
-
+                day = if event_dt.date() > now_dt.date() then "tomorrow" else "today"
                 azimuth = day[event]['azimuth']
-                return (event_dt, azimuth)
+
+                return (event_dt, day, azimuth)
 
     def get_next_moon_rise_str(self):
-        (rise_dt, azimuth) = self.get_next_moon_event('rise')
-        return (rise_dt.strftime("%I:%M%p"), azimuth)
+        (rise_dt, day, azimuth) = self.get_next_moon_event('rise')
+        return (self.get_time_str(rise_dt), day, azimuth)
 
     def get_next_moon_set_str(self):
-        (set_dt, azimuth) = self.get_next_moon_event('set')
-        return (set_dt.strftime("%I:%M%p"), azimuth)
+        (set_dt, day, azimuth) = self.get_next_moon_event('set')
+        return (self.get_time_str(set_dt), day, azimuth)
