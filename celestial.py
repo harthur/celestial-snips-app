@@ -39,15 +39,15 @@ class Celestial:
             # Assumes sequential order in the time file
             if event_dt > now_dt:
                 print("FOUND", event_dt)
-                day = "tomorrow" if event_dt.date() > now_dt.date() else "today"
+                day_str = "tomorrow" if event_dt.date() > now_dt.date() else "today"
                 azimuth = day[event]['azimuth']
 
-                return (event_dt, day, azimuth)
+                return (event_dt, day_str, azimuth)
 
     def get_next_moon_rise_str(self):
-        (rise_dt, day, azimuth) = self.get_next_moon_event('rise')
-        return (self.get_time_str(rise_dt), day, azimuth)
+        (rise_dt, day_str, azimuth) = self.get_next_moon_event('rise')
+        return (self.get_time_str(rise_dt), day_str, azimuth)
 
     def get_next_moon_set_str(self):
-        (set_dt, day, azimuth) = self.get_next_moon_event('set')
-        return (self.get_time_str(set_dt), day, azimuth)
+        (set_dt, day_str, azimuth) = self.get_next_moon_event('set')
+        return (self.get_time_str(set_dt), day_str, azimuth)
