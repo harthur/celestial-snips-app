@@ -33,18 +33,3 @@ class SenseDisplay():
   
     self.sense.clear()
     self.sense.set_pixel(int(x), int(y), self.on_color)
-
-
-display = SenseDisplay()
-display.display_direction(90)
-
-# mark = [
-# O, O, O, O, O, O, O, O,
-# O, O, O, O, O, O, O, O,
-# O, O, O, O, O, O, O, O,
-# O, O, O, O, O, O, O, O,
-# O, O, O, O, O, O, O, O,
-# O, O, O, O, O, O, O, O,
-# O, O, O, O, O, O, O, O,
-# O, O, O, O, O, O, O, O
-# ]

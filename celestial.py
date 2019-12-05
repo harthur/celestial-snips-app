@@ -16,14 +16,16 @@ class Celestial:
     def get_datetime_from_iso(str):
         return datetime.datetime.strptime(str, '%Y-%m-%dT%H:%M:%S.%fZ')
 
-    def get_next_moon_event(self, kind='rise'):
+    def get_next_moon_event(self, event='rise'):
         now_dt = datetime.datetime.now(tz=ET_TZ)
+
+        print("NOW", now_dt)
             
         for day in self.moon_chart:
-            if not kind in day:
+            if not event in day:
                 continue # no rise/set that day
 
-            [hour, minute] = day[kind]['time'].split(':')
+            [hour, minute] = day[event]['time'].split(':')
         
             dt = self.get_datetime_from_iso(day['date'])
             event_dt = datetime.datetime(dt.year, dt.month, dt.day,
@@ -32,7 +34,9 @@ class Celestial:
             # Found the first event after the current time.
             # Assumes sequential order in the time file
             if event_dt > now_dt:
-                azimuth = day[kind]['azimuth']
+                print("FOUND", event_dt)
+
+                azimuth = day[event]['azimuth']
                 return (event_dt, azimuth)
 
     def get_next_moon_rise_str(self):
