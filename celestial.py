@@ -72,20 +72,30 @@ class Celestial:
     def get_next_moon_event(self, event='rise'):
         return self.get_next_event(self.moon_chart, event)
 
-    def get_next_moon_rise_str(self):
-        (rise_dt, is_tomorrow, azimuth) = self.get_next_moon_event('rise')
+    def get_next_sun_event(self, event='rise'):
+        return self.get_next_event(self.sun_chart, event)
 
-        time_str = self.get_time_str(rise_dt)
+    def get_event_strs(self, event_info):
+        (dt, is_tomorrow, azimuth) = event_info
+
+        time_str = self.get_time_str(dt)
         day_str = self.get_day_str(is_tomorrow)
         cardinal_str = self.get_cardinal_str(azimuth)
 
         return (time_str, day_str, cardinal_str, azimuth)
+
+    def get_next_moon_rise_str(self):
+        event_info = self.get_next_moon_event('rise')
+        return self.get_event_strs(event_info)
 
     def get_next_moon_set_str(self):
-        (set_dt, is_tomorrow, azimuth) = self.get_next_moon_event('set')
+        event_info = self.get_next_moon_event('set')
+        return self.get_event_strs(event_info)
 
-        time_str = self.get_time_str(set_dt)
-        day_str = self.get_day_str(is_tomorrow)
-        cardinal_str = self.get_cardinal_str(azimuth)
-        
-        return (time_str, day_str, cardinal_str, azimuth)
+    def get_next_sun_rise_str(self):
+        event_info = self.get_next_sun_event('rise')
+        return self.get_event_strs(event_info)
+
+    def get_next_sun_set_str(self):
+        event_info = self.get_next_sun_event('set')
+        return self.get_event_strs(event_info)
