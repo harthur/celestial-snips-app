@@ -48,7 +48,7 @@ class CelestialApp:
 
         self.display.display_direction(azimuth)
 
-        msg = "The next moonrise is at %s %s at %s" % (time_str, day_str, dir_str)
+        msg = "The next moonrise is at %s %s in the %s" % (time_str, day_str, dir_str)
 
         hermes.publish_end_session(intent_message.session_id, msg)
 

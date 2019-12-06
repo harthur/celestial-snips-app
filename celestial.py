@@ -22,7 +22,7 @@ class Celestial:
 
     @staticmethod
     def get_day_str(is_tomorrow):
-        "tomorrow" if is_tomorrow else "today"
+        return "tomorrow" if is_tomorrow else "today"
 
     @staticmethod
     def get_cardinal_str(degrees):
@@ -62,7 +62,7 @@ class Celestial:
             if event_dt > now_dt:
                 print("FOUND", event_dt)
                 is_tomorrow = event_dt.date() > now_dt.date()
-                azimuth = day[event]['azimuth']
+                azimuth = int(day[event]['azimuth'])
 
                 return (event_dt, is_tomorrow, azimuth)
 
