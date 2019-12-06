@@ -6,12 +6,15 @@ import datetime
 
 class Celestial:
     MOON_FNAME = 'moon-nyc.json'
+    SUN_FNAME = 'sun-nyc.json'
 
     ET_TZ = datetime.timezone(datetime.timedelta(hours=-5))
 
     def __init__(self):
         with open(Celestial.MOON_FNAME) as f:
             self.moon_chart = json.loads(f.read())
+        with open(Celestial.SUN_FNAME) as f:
+            self.sun_chart = json.loads(f.read())
 
     @staticmethod
     def get_datetime_from_iso(str):
@@ -43,12 +46,11 @@ class Celestial:
         index = round(degrees % (360 - per_cardinal / 2) / per_cardinal)
         return cardinals[index]
 
-    def get_next_moon_event(self, event='rise'):
+    def get_next_event(self, chart, event='rise'):
         now_dt = datetime.datetime.now(tz=Celestial.ET_TZ)
-
         print("NOW", now_dt)
             
-        for day in self.moon_chart:
+        for day in chart:
             if not event in day:
                 continue # no rise/set that day
 
@@ -66,6 +68,9 @@ class Celestial:
                 azimuth = day[event]['azimuth']
 
                 return (event_dt, is_tomorrow, azimuth)
+
+    def get_next_moon_event(self, event='rise'):
+        return self.get_next_event(self.moon_chart, event)
 
     def get_next_moon_rise_str(self):
         (rise_dt, is_tomorrow, azimuth) = self.get_next_moon_event('rise')
