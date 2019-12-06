@@ -4,12 +4,13 @@ from astropy.time import Time
 import json
 import datetime
 
-MOON_FNAME = 'moon-nyc.json'
-ET_TZ = datetime.timezone(datetime.timedelta(hours=-5))
-
 class Celestial:
+    MOON_FNAME = 'moon-nyc.json'
+
+    ET_TZ = datetime.timezone(datetime.timedelta(hours=-5))
+
     def __init__(self):
-        with open(MOON_FNAME) as f:
+        with open(Celestial.MOON_FNAME) as f:
             self.moon_chart = json.loads(f.read())
 
     @staticmethod
@@ -43,7 +44,7 @@ class Celestial:
         return cardinals[index]
 
     def get_next_moon_event(self, event='rise'):
-        now_dt = datetime.datetime.now(tz=ET_TZ)
+        now_dt = datetime.datetime.now(tz=Celestial.ET_TZ)
 
         print("NOW", now_dt)
             
@@ -55,7 +56,7 @@ class Celestial:
         
             dt = self.get_datetime_from_iso(day['date'])
             event_dt = datetime.datetime(dt.year, dt.month, dt.day,
-                int(hour), int(minute), tzinfo=ET_TZ)
+                int(hour), int(minute), tzinfo=Celestial.ET_TZ)
             
             # Found the first event after the current time.
             # Assumes sequential order in the time file

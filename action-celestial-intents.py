@@ -57,10 +57,13 @@ class CelestialApp:
         if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
             return
 
-        time_str = self.celestial.get_next_moon_set_str()
+        (time_str, day_str, dir_str, azimuth) = self.celestial.get_next_moon_set_str()
 
-        hermes.publish_end_session(intent_message.session_id,
-          "The moon will set at %s" % time_str)
+        self.display.display_direction(azimuth)
+
+        msg = "The next moonset is at %s %s in the %s" % (time_str, day_str, dir_str)
+
+        hermes.publish_end_session(intent_message.session_id, msg)
 
     @staticmethod
     def sunrise_callback(hermes, intent_message):
