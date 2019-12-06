@@ -49,7 +49,6 @@ class CelestialApp:
         self.display.display_direction(azimuth)
 
         msg = "The next moonrise is at %s %s in the %s" % (time_str, day_str, dir_str)
-
         hermes.publish_end_session(intent_message.session_id, msg)
 
     def moonset_callback(self, hermes, intent_message):
@@ -61,20 +60,28 @@ class CelestialApp:
         self.display.display_direction(azimuth)
 
         msg = "The next moonset is at %s %s in the %s" % (time_str, day_str, dir_str)
-
         hermes.publish_end_session(intent_message.session_id, msg)
 
     def sunrise_callback(self, hermes, intent_message):
         if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
             return
-        hermes.publish_end_session(intent_message.session_id,
-        "The sun will rise at 6:45 AM today")
+
+        (time_str, day_str, dir_str, azimuth) = self.celestial.get_next_sun_rise_str()
+
+        self.display.display_direction(azimuth)
+
+        msg = "The next sunrise is at %s %s in the %s" % (time_str, day_str, dir_str)
+        hermes.publish_end_session(intent_message.session_id, msg)
 
     def sunset_callback(self, hermes, intent_message):
         if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
             return
-        hermes.publish_end_session(intent_message.session_id,
-        "The sun will set at 5:15 PM today")
+        (time_str, day_str, dir_str, azimuth) = self.celestial.get_next_sun_set_str()
+
+        self.display.display_direction(azimuth)
+
+        msg = "The next sunset is at %s %s in the %s" % (time_str, day_str, dir_str)
+        hermes.publish_end_session(intent_message.session_id, msg)
 
     # register callback function to its intent and start listen to MQTT bus
     def start_blocking(self):
