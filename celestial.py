@@ -63,7 +63,7 @@ class Celestial:
             if event_dt > now_dt:
                 print("FOUND", event_dt)
                 is_tomorrow = event_dt.date() > now_dt.date()
-                azimuth = int(day[event]['azimuth'])
+                azimuth = day[event]['azimuth']
 
                 return (event_dt, is_tomorrow, azimuth)
 
