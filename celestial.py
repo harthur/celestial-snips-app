@@ -5,7 +5,7 @@ import json
 import datetime
 
 MOON_FNAME = 'moon-nyc.json'
-ET_TZ = datetime.timezone(datetime.timedelta(hours=5))
+ET_TZ = datetime.timezone(datetime.timedelta(hours=-5))
 
 class Celestial:
     def __init__(self):
