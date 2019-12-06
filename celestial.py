@@ -20,6 +20,28 @@ class Celestial:
     def get_time_str(dt):
         return dt.strftime("%I:%M%p")
 
+    @staticmethod
+    def get_day_str(is_tomorrow):
+        "tomorrow" if is_tomorrow else "today"
+
+    @staticmethod
+    def get_cardinal_str(degrees):
+        cardinals = [
+            'north',
+            'north northeast',
+            'east',
+            'south southeast',
+            'south',
+            'south southwest',
+            'west',
+            'north northwest'
+        ]
+        per_cardinal = 360 / len(cardinals)
+
+        # shift to accomodate north being in the range 337.5 - 360 and 0 - 22.5
+        index = round(degrees % (360 - per_cardinal / 2) / per_cardinal)
+        return cardinals[index]
+
     def get_next_moon_event(self, event='rise'):
         now_dt = datetime.datetime.now(tz=ET_TZ)
 
@@ -39,15 +61,25 @@ class Celestial:
             # Assumes sequential order in the time file
             if event_dt > now_dt:
                 print("FOUND", event_dt)
-                day_str = "tomorrow" if event_dt.date() > now_dt.date() else "today"
+                is_tomorrow = event_dt.date() > now_dt.date()
                 azimuth = day[event]['azimuth']
 
-                return (event_dt, day_str, azimuth)
+                return (event_dt, is_tomorrow, azimuth)
 
     def get_next_moon_rise_str(self):
-        (rise_dt, day_str, azimuth) = self.get_next_moon_event('rise')
-        return (self.get_time_str(rise_dt), day_str, azimuth)
+        (rise_dt, is_tomorrow, azimuth) = self.get_next_moon_event('rise')
+
+        time_str = self.get_time_str(rise_dt)
+        day_str = self.get_day_str(is_tomorrow)
+        cardinal_str = self.get_cardinal_str(azimuth)
+
+        return (time_str, day_str, cardinal_str, azimuth)
 
     def get_next_moon_set_str(self):
-        (set_dt, day_str, azimuth) = self.get_next_moon_event('set')
-        return (self.get_time_str(set_dt), day_str, azimuth)
+        (set_dt, is_tomorrow, azimuth) = self.get_next_moon_event('set')
+
+        time_str = self.get_time_str(set_dt)
+        day_str = self.get_day_str(is_tomorrow)
+        cardinal_str = self.get_cardinal_str(azimuth)
+        
+        return (time_str, day_str, cardinal_str, azimuth)

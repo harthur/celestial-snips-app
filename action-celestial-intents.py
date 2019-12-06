@@ -44,11 +44,11 @@ class CelestialApp:
         if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
             return
 
-        (time_str, day_str, azimuth) = self.celestial.get_next_moon_rise_str()
+        (time_str, day_str, dir_str, azimuth) = self.celestial.get_next_moon_rise_str()
 
         self.display.display_direction(azimuth)
 
-        msg = "The next moonrise is at %s %s at %s degrees from North" % (time_str, day_str, azimuth)
+        msg = "The next moonrise is at %s %s at %s" % (time_str, day_str, dir_str)
 
         hermes.publish_end_session(intent_message.session_id, msg)
 
