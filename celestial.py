@@ -5,8 +5,8 @@ import json
 import datetime
 
 class Celestial:
-    MOON_FNAME = 'moon-nyc.json'
-    SUN_FNAME = 'sun-nyc.json'
+    MOON_FNAME = './charts/moon-nyc.json'
+    SUN_FNAME = './charts/sun-nyc.json'
 
     ET_TZ = datetime.timezone(datetime.timedelta(hours=-5))
 
@@ -69,14 +69,8 @@ class Celestial:
 
                 return (event_dt, is_tomorrow, azimuth)
 
-    def get_next_moon_event(self, event='rise'):
-        return self.get_next_event(self.moon_chart, event)
-
-    def get_next_sun_event(self, event='rise'):
-        return self.get_next_event(self.sun_chart, event)
-
-    def get_event_strs(self, event_info):
-        (dt, is_tomorrow, azimuth) = event_info
+    def get_event_strs(self, chart, event='rise'):
+        (dt, is_tomorrow, azimuth) = self.get_next_event(chart, event)
 
         time_str = self.get_time_str(dt)
         day_str = self.get_day_str(is_tomorrow)
@@ -85,17 +79,13 @@ class Celestial:
         return (time_str, day_str, cardinal_str, azimuth)
 
     def get_next_moon_rise_str(self):
-        event_info = self.get_next_moon_event('rise')
-        return self.get_event_strs(event_info)
+        return self.get_event_strs(self.moon_chart, 'rise')
 
     def get_next_moon_set_str(self):
-        event_info = self.get_next_moon_event('set')
-        return self.get_event_strs(event_info)
+        return self.get_event_strs(self.moon_chart, 'set')
 
     def get_next_sun_rise_str(self):
-        event_info = self.get_next_sun_event('rise')
-        return self.get_event_strs(event_info)
+        return self.get_event_strs(self.sun_chart, 'rise')
 
     def get_next_sun_set_str(self):
-        event_info = self.get_next_sun_event('set')
-        return self.get_event_strs(event_info)
+        return self.get_event_strs(self.sun_chart, 'set')
