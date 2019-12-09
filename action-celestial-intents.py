@@ -1,14 +1,11 @@
 #!/usr/bin/env python3.5
 
-from snipsTools import SnipsConfigParser
 from hermes_python.hermes import Hermes
 from display import SenseDisplay
 from celestial import Celestial
 
 import os
 import pwd
-
-CONFIG_INI = "config.ini"
 
 # if this skill is supposed to run on the satellite,
 # please get this mqtt connection info from <config.ini>
@@ -27,12 +24,6 @@ class CelestialApp:
     """
 
     def __init__(self):
-        # get the configuration if needed
-        try:
-            self.config = SnipsConfigParser.read_configuration_file(CONFIG_INI)
-        except Exception:
-            self.config = None
-
         self.display = SenseDisplay()
         self.celestial = Celestial()
 
