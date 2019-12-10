@@ -8,13 +8,13 @@ import datetime
 class Celestial:
     """Getting moon and sun rise and set times from hard-coded charts for Virginia"""
 
-    BODIES = ['moon', 'sun']
+    BODIES = ["moon", "sun"]
     ET_TZ = datetime.timezone(datetime.timedelta(hours=-5))
 
     def __init__(self):
         self.charts = {}
-        for body in bodies:
-            fname = './charts/%s-nyc.json' % body
+        for body in self.BODIES:
+            fname = "./charts/%s-nyc.json" % body
             with open(fname) as f:
                 self.charts[body] = json.loads(f.read())
 
@@ -23,7 +23,7 @@ class Celestial:
         return datetime.datetime.strptime(str, "%Y-%m-%dT%H:%M:%S.%fZ")
 
     def get_next_event(self, body="moon", event="rise"):
-        now_dt = datetime.datetime.now(tz=Celestial.ET_TZ)
+        now_dt = datetime.datetime.now(tz=self.ET_TZ)
 
         for day in self.charts[body]:
             if not event in day:
