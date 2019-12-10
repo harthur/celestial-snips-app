@@ -72,7 +72,7 @@ class CelestialApp:
     def sunset_callback(self, hermes, intent_message):
         if intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD:
             return
-        
+
         event_info = self.celestial.get_next_event("sun", "set")
         (event_dt, is_tomorrow, azimuth) = event_info
 
