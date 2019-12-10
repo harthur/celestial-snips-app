@@ -8,16 +8,15 @@ import datetime
 class Celestial:
     """Getting moon and sun rise and set times from hard-coded charts for Virginia"""
 
-    CHART_FNAMES = {"moon": "./charts/moon-nyc.json", "sun": "./charts/sun-nyc.json"}
+    BODIES = ['moon', 'sun']
     ET_TZ = datetime.timezone(datetime.timedelta(hours=-5))
 
     def __init__(self):
         self.charts = {}
-
-        with open(Celestial.CHART_FNAMES["moon"]) as f:
-            self.charts["moon"] = json.loads(f.read())
-        with open(Celestial.CHART_FNAMES["sun"]) as f:
-            self.charts["sun"] = json.loads(f.read())
+        for body in bodies:
+            fname = './charts/%s-nyc.json' % body
+            with open(fname) as f:
+                self.charts[body] = json.loads(f.read())
 
     @staticmethod
     def get_datetime_from_iso(str):
