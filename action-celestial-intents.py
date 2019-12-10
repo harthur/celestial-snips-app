@@ -34,51 +34,28 @@ class CelestialApp:
         self.start_blocking()
 
     def moonrise_callback(self, hermes, intent_message):
-        if intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD:
-            return
-
-        event_info = self.celestial.get_next_event("moon", "rise")
-        (event_dt, is_tomorrow, azimuth) = event_info
-
-        self.display.display_direction(azimuth)
-
-        msg = CelestialStrings.get_event_message("moon", "rise", event_info)
-        hermes.publish_end_session(intent_message.session_id, msg)
+        self.handle_event(hermes, intent_message, "moon", "rise")
 
     def moonset_callback(self, hermes, intent_message):
-        if intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD:
-            return
-
-        event_info = self.celestial.get_next_event("moon", "set")
-        (event_dt, is_tomorrow, azimuth) = event_info
-
-        self.display.display_direction(azimuth)
-
-        msg = CelestialStrings.get_event_message("moon", "set", event_info)
-        hermes.publish_end_session(intent_message.session_id, msg)
+        self.handle_event(hermes, intent_message, "moon", "set")
 
     def sunrise_callback(self, hermes, intent_message):
-        if intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD:
-            return
-
-        event_info = self.celestial.get_next_event("sun", "rise")
-        (event_dt, is_tomorrow, azimuth) = event_info
-
-        self.display.display_direction(azimuth)
-
-        msg = CelestialStrings.get_event_message("sun", "rise", event_info)
-        hermes.publish_end_session(intent_message.session_id, msg)
+        self.handle_event(hermes, intent_message, "sun", "rise")
 
     def sunset_callback(self, hermes, intent_message):
+        self.handle_event(hermes, intent_message, "sun", "set")
+
+    def handle_event(self, hermes, intent_message, body, event):
+        """Handle an "event" intent: a rise or set of a celestial body"""
         if intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD:
             return
 
-        event_info = self.celestial.get_next_event("sun", "set")
+        event_info = self.celestial.get_next_event(body, event)
         (event_dt, is_tomorrow, azimuth) = event_info
 
         self.display.display_direction(azimuth)
 
-        msg = CelestialStrings.get_event_message("sun", "set", event_info)
+        msg = CelestialStrings.get_event_message(body, event, event_info)
         hermes.publish_end_session(intent_message.session_id, msg)
 
     # register callback function to its intent and start listen to MQTT bus
