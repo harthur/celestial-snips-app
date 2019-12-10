@@ -14,9 +14,9 @@ class Celestial:
     def __init__(self):
         self.charts = {}
 
-        with open(Celestial.MOON_FNAME) as f:
+        with open(Celestial.CHART_FNAMES["moon"]) as f:
             self.charts["moon"] = json.loads(f.read())
-        with open(Celestial.SUN_FNAME) as f:
+        with open(Celestial.CHART_FNAMES["sun"]) as f:
             self.charts["sun"] = json.loads(f.read())
 
     @staticmethod
