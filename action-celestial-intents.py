@@ -3,6 +3,7 @@
 from hermes_python.hermes import Hermes
 from display import SenseDisplay
 from celestial import Celestial
+from strings import CelestialStrings
 
 import os
 import pwd
@@ -16,6 +17,7 @@ MQTT_PORT = 1883
 MQTT_ADDR = "{}:{}".format(MQTT_IP_ADDR, str(MQTT_PORT))
 
 INTENT_CONFIDENCE_THRESHOLD = 0.65
+
 
 class CelestialApp:
     """
@@ -32,56 +34,65 @@ class CelestialApp:
         self.start_blocking()
 
     def moonrise_callback(self, hermes, intent_message):
-        if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
+        if intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD:
             return
 
-        (time_str, day_str, dir_str, azimuth) = self.celestial.get_next_moon_rise_str()
+        event_info = self.celestial.get_next_event("moon", "rise")
+        (event_dt, is_tomorrow, azimuth) = event_info
 
         self.display.display_direction(azimuth)
 
-        msg = "The next moonrise is at %s %s, in the %s" % (time_str, day_str, dir_str)
+        msg = CelestialStrings.get_event_message("moon", "rise", event_info)
         hermes.publish_end_session(intent_message.session_id, msg)
 
     def moonset_callback(self, hermes, intent_message):
-        if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
+        if intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD:
             return
 
-        (time_str, day_str, dir_str, azimuth) = self.celestial.get_next_moon_set_str()
+        event_info = self.celestial.get_next_event("moon", "set")
+        (event_dt, is_tomorrow, azimuth) = event_info
 
         self.display.display_direction(azimuth)
 
-        msg = "The next moonset is at %s %s, in the %s" % (time_str, day_str, dir_str)
+        msg = CelestialStrings.get_event_message("moon", "set", event_info)
         hermes.publish_end_session(intent_message.session_id, msg)
 
     def sunrise_callback(self, hermes, intent_message):
-        if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
+        if intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD:
             return
 
-        (time_str, day_str, dir_str, azimuth) = self.celestial.get_next_sun_rise_str()
+        event_info = self.celestial.get_next_event("sun", "rise")
+        (event_dt, is_tomorrow, azimuth) = event_info
 
         self.display.display_direction(azimuth)
 
-        msg = "The next sunrise is at %s %s, in the %s" % (time_str, day_str, dir_str)
+        msg = CelestialStrings.get_event_message("sun", "rise", event_info)
         hermes.publish_end_session(intent_message.session_id, msg)
 
     def sunset_callback(self, hermes, intent_message):
-        if (intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD):
+        if intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD:
             return
-        (time_str, day_str, dir_str, azimuth) = self.celestial.get_next_sun_set_str()
+        
+        event_info = self.celestial.get_next_event("sun", "set")
+        (event_dt, is_tomorrow, azimuth) = event_info
 
         self.display.display_direction(azimuth)
 
-        msg = "The next sunset is at %s %s, in the %s" % (time_str, day_str, dir_str)
+        msg = CelestialStrings.get_event_message("sun", "set", event_info)
         hermes.publish_end_session(intent_message.session_id, msg)
 
     # register callback function to its intent and start listen to MQTT bus
     def start_blocking(self):
         with Hermes(MQTT_ADDR) as h:
-            h.subscribe_intent('harthur:Moonrise', self.moonrise_callback)\
-            .subscribe_intent('harthur:Moonset', self.moonset_callback)\
-            .subscribe_intent('harthur:Sunrise', self.sunrise_callback)\
-            .subscribe_intent('harthur:Sunset', self.sunset_callback)\
-            .loop_forever()
+            h.subscribe_intent(
+                "harthur:Moonrise", self.moonrise_callback
+            ).subscribe_intent(
+                "harthur:Moonset", self.moonset_callback
+            ).subscribe_intent(
+                "harthur:Sunrise", self.sunrise_callback
+            ).subscribe_intent(
+                "harthur:Sunset", self.sunset_callback
+            ).loop_forever()
 
 
 if __name__ == "__main__":
