@@ -34,19 +34,23 @@ class CelestialApp:
         self.start_blocking()
 
     def moonrise_callback(self, hermes, intent_message):
-        self.handle_event(hermes, intent_message, "moon", "rise")
+        self.handle_event_intent(hermes, intent_message, "moon", "rise")
 
     def moonset_callback(self, hermes, intent_message):
-        self.handle_event(hermes, intent_message, "moon", "set")
+        self.handle_event_intent(hermes, intent_message, "moon", "set")
 
     def sunrise_callback(self, hermes, intent_message):
-        self.handle_event(hermes, intent_message, "sun", "rise")
+        self.handle_event_intent(hermes, intent_message, "sun", "rise")
 
     def sunset_callback(self, hermes, intent_message):
-        self.handle_event(hermes, intent_message, "sun", "set")
+        self.handle_event_intent(hermes, intent_message, "sun", "set")
 
-    def handle_event(self, hermes, intent_message, body, event):
-        """Handle an "event" intent: a rise or set of a celestial body"""
+    def moon_phase_callback(self, hermes, intent_message):
+        msg = "The moon is a full moon"
+        hermes.publish_end_session(intent_message.session_id, msg)
+
+    def handle_event_intent(self, hermes, intent_message, body, event):
+        """Handle an "event" intent: rise or set of a celestial body"""
         if intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD:
             return
 
@@ -69,6 +73,8 @@ class CelestialApp:
                 "harthur:Sunrise", self.sunrise_callback
             ).subscribe_intent(
                 "harthur:Sunset", self.sunset_callback
+            ).subscribe_intent(
+                "harthur:MoonPhase", self.moon_phase_callback
             ).loop_forever()
 
 
