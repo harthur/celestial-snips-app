@@ -37,4 +37,4 @@ class SenseDisplay:
         self.sense.set_pixel(int(x), int(y), self.on_color)
 
     def display_moon_phase(self, phase):
-        self.sense.load_image('waningcrescent.jpg')
+        self.sense.load_image("waningcrescent.jpg")
