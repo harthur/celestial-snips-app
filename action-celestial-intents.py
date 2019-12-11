@@ -48,7 +48,7 @@ class CelestialApp:
     def moon_phase_callback(self, hermes, intent_message):
         phase_info = self.celestial.get_moon_phase()
 
-        self.display.display_moon_phase()
+        self.display.display_moon_phase(phase_info)
 
         msg = CelestialStrings.get_moon_phase_message(phase_info)
         hermes.publish_end_session(intent_message.session_id, msg)
