@@ -45,3 +45,17 @@ class CelestialStrings:
             day_str,
             dir_str,
         )
+
+    @staticmethod
+    def get_moon_phase_message(phase_info):
+        (trend, phase) = phase_info
+
+        if phase == "full":
+            return "It's a full moon today"
+        if phase == "new":
+            return "It's a new moon today"
+        if phase == "quarter" and trend == "waxing":
+            return "First quarter"
+        if phase == "quarter" and trend == "waning":
+            return "Third quarter"
+        return "The moon is a %s %s" % (trend, phase)

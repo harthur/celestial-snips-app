@@ -1,6 +1,7 @@
 import astropy.units as u
 from astroplan import Observer
 from astropy.time import Time
+from astroplan import moon
 import json
 import datetime
 
@@ -48,3 +49,27 @@ class Celestial:
                 azimuth = day[event]["azimuth"]
 
                 return (event_dt, is_tomorrow, azimuth)
+
+    def get_moon_phase(self):
+        phases = {
+            "new": (0, 0.01),
+            "crescent": (0.01, 0.48),
+            "quarter": (0.48, 0.52),
+            "gibbous": (0.52, 0.99),
+            "full": (0.99, 1),
+        }
+        now_dt = datetime.datetime.now(tz=self.ET_TZ)
+
+        illumination = moon.moon_illumination(Time(now_dt))
+
+        for phase, (lower, upper) in phases.items():
+            if lower < illumination <= upper:
+                current_phase = phase
+                break
+
+        yesterday = Time(now_dt - datetime.timedelta(hours=1))
+        trend = (
+            "waning" if moon.moon_illumination(yesterday) > illumination else "waxing"
+        )
+
+        return (trend, current_phase)
