@@ -48,7 +48,7 @@ class CelestialStrings:
 
     @staticmethod
     def get_moon_phase_message(phase_info):
-        (trend, phase) = phase_info
+        (trend, phase, illumination) = phase_info
 
         if phase == "full":
             return "It's a full moon today"

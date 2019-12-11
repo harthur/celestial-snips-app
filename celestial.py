@@ -72,4 +72,4 @@ class Celestial:
             "waning" if moon.moon_illumination(yesterday) > illumination else "waxing"
         )
 
-        return (trend, current_phase)
+        return (trend, current_phase, illumination)

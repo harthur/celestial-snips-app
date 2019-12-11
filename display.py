@@ -36,5 +36,19 @@ class SenseDisplay:
         self.sense.clear()
         self.sense.set_pixel(int(x), int(y), self.on_color)
 
-    def display_moon_phase(self, phase):
-        self.sense.load_image("waningcrescent.jpg")
+    def display_moon_phase(self, phase_info):
+        (trend, phase, illumination) = phase_info
+
+        percent = round(illumination * 10) * 10
+
+        if percent == 100:
+            img_fname = "full100.png"
+        elif percent == 0:
+            img_fname = "new0.png"
+        else:
+            img_fname = "%s%s.png" % (trend, percent)
+
+        # The full white is too bright
+        self.sense.low_light = True
+
+        self.sense.load_image("phase-images/%s" % img_fname)
