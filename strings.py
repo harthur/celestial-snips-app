@@ -57,5 +57,5 @@ class CelestialStrings:
         if phase == "quarter" and trend == "waxing":
             return "First quarter"
         if phase == "quarter" and trend == "waning":
-            return "Third quarter"
+            return "Last quarter"
         return "The moon is a %s %s" % (trend, phase)
