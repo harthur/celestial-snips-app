@@ -1,5 +1,5 @@
 class CelestialStrings:
-    """Construct voice messages for Celestial app using data"""
+    """Construct voice messages for Celestial app using parameters"""
 
     def __init__(self):
         pass

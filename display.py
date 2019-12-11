@@ -4,9 +4,9 @@ import math
 
 class SenseDisplay:
     """
-  Using the LED display on the Sense HAT to display cardinal direction
-  arrows and moon phases
-  """
+    Using the LED display on the Sense HAT to display cardinal direction
+    arrows and moon phases
+    """
 
     size = 8
     on_color = (0, 0, 255)  # blue
@@ -21,9 +21,9 @@ class SenseDisplay:
 
     def display_direction(self, degrees=0):
         """ 
-    Take the cardinal direction in degrees, and display
-    an "arrow" on the Sense HAT pointing in that direction.
-    """
+        Take the cardinal direction in degrees, and display
+        an "arrow" on the Sense HAT pointing in that direction.
+        """
         # Adjust direction to the current orientation of the HAT
         north = self.sense.get_compass()
         print("NORTH: %s" % north)
@@ -35,3 +35,6 @@ class SenseDisplay:
 
         self.sense.clear()
         self.sense.set_pixel(int(x), int(y), self.on_color)
+
+    def display_moon_phase(self, phase):
+        self.sense.load_image('waningcrescent.jpg')
