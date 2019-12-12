@@ -46,6 +46,9 @@ class CelestialApp:
         self.handle_event_intent(hermes, intent_message, "sun", "set")
 
     def moon_phase_callback(self, hermes, intent_message):
+        if intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD:
+            return
+
         phase_info = self.celestial.get_moon_phase()
 
         self.display.display_moon_phase(phase_info)

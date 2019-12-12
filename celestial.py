@@ -52,11 +52,11 @@ class Celestial:
 
     def get_moon_phase(self):
         phases = {
-            "new": (0, 0.01),
-            "crescent": (0.01, 0.48),
+            "new": (0, 0.005),
+            "crescent": (0.005, 0.48),
             "quarter": (0.48, 0.52),
-            "gibbous": (0.52, 0.99),
-            "full": (0.99, 1),
+            "gibbous": (0.52, 0.9925),
+            "full": (0.9925, 1),
         }
         now_dt = datetime.datetime.now(tz=self.ET_TZ)
 
