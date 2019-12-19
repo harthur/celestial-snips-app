@@ -24,6 +24,9 @@ class Celestial:
         return datetime.datetime.strptime(str, "%Y-%m-%dT%H:%M:%S.%fZ")
 
     def get_next_event(self, body="moon", event="rise"):
+        """Get the next rise/set by looking up the date in a chart of rise/set
+        times as obtained from the US Naval Observatory at https://aa.usno.navy.mil
+        Other methods, such as using astropy's astroplan, were too slow."""
         now_dt = datetime.datetime.now(tz=self.ET_TZ)
 
         for day in self.charts[body]:
@@ -51,11 +54,12 @@ class Celestial:
                 return (event_dt, is_tomorrow, azimuth)
 
     def get_moon_phase(self):
+        # These numbers are just guesses.
         phases = {
             "new": (0, 0.005),
-            "crescent": (0.005, 0.48),
-            "quarter": (0.48, 0.52),
-            "gibbous": (0.52, 0.9925),
+            "crescent": (0.005, 0.47),
+            "quarter": (0.47, 0.53),
+            "gibbous": (0.53, 0.9925),
             "full": (0.9925, 1),
         }
         now_dt = datetime.datetime.now(tz=self.ET_TZ)
