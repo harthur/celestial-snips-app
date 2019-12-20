@@ -24,10 +24,14 @@ class Celestial:
         return datetime.datetime.strptime(str, "%Y-%m-%dT%H:%M:%S.%fZ")
 
     def get_next_event(self, body="moon", event="rise"):
+        now_dt = datetime.datetime.now(tz=self.ET_TZ)
+
+        return self.get_next_event_after_dt(now_dt, body, event)
+
+    def get_next_event_after_dt(self, start_dt, body="moon", event="rise"):
         """Get the next rise/set by looking up the date in a chart of rise/set
         times as obtained from the US Naval Observatory at https://aa.usno.navy.mil
         Other methods, such as using astropy's astroplan, were too slow."""
-        now_dt = datetime.datetime.now(tz=self.ET_TZ)
 
         for day in self.charts[body]:
             if not event in day:
@@ -47,8 +51,8 @@ class Celestial:
 
             # Found the first event after the current time.
             # Assumes sequential order in the time file
-            if event_dt > now_dt:
-                is_tomorrow = event_dt.date() > now_dt.date()
+            if event_dt > start_dt:
+                is_tomorrow = event_dt.date() > start_dt.date()
                 azimuth = day[event]["azimuth"]
 
                 return (event_dt, is_tomorrow, azimuth)
