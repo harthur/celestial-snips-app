@@ -15,7 +15,7 @@ class Celestial:
     def __init__(self):
         self.charts = {}
         for body in self.BODIES:
-            fname = "./charts/%s-nyc.json" % body
+            fname = "./charts/%s-va.json" % body
             with open(fname) as f:
                 self.charts[body] = json.loads(f.read())
 
