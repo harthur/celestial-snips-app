@@ -4,13 +4,14 @@ from astropy.time import Time
 from astroplan import moon
 import json
 import datetime
+import pytz
 
 
 class Celestial:
     """Getting moon and sun rise and set times from hard-coded charts for Virginia"""
 
     BODIES = ["moon", "sun"]
-    ET_TZ = datetime.timezone(datetime.timedelta(hours=-5))
+    ET_TZ = pytz.timezone("US/Eastern")
 
     def __init__(self):
         self.charts = {}
@@ -24,7 +25,7 @@ class Celestial:
         return datetime.datetime.strptime(str, "%Y-%m-%dT%H:%M:%S.%fZ")
 
     def get_next_event(self, body="moon", event="rise"):
-        now_dt = datetime.datetime.now(tz=self.ET_TZ)
+        now_dt = self.ET_TZ.localize(datetime.datetime.now())
 
         return self.get_next_event_after_dt(now_dt, body, event)
 
@@ -40,13 +41,15 @@ class Celestial:
             [hour, minute] = day[event]["time"].split(":")
 
             dt = self.get_datetime_from_iso(day["date"])
+
+            # The chart lists the local time, so we use the ET time zone
             event_dt = datetime.datetime(
                 dt.year,
                 dt.month,
                 dt.day,
                 int(hour),
                 int(minute),
-                tzinfo=Celestial.ET_TZ,
+                tzinfo=self.ET_TZ,
             )
 
             # Found the first event after the current time.
