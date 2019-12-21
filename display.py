@@ -52,3 +52,6 @@ class SenseDisplay:
         self.sense.low_light = False
 
         self.sense.load_image("phase-images/%s" % img_fname)
+
+    def clear_display(self):
+        self.sense.clear()

@@ -56,6 +56,14 @@ class CelestialApp:
         msg = CelestialStrings.get_moon_phase_message(phase_info)
         hermes.publish_end_session(intent_message.session_id, msg)
 
+    def moon_phase_callback(self, hermes, intent_message):
+        if intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD:
+            return
+
+        self.display.clear_display()
+
+        hermes.publish_end_session(intent_message.session_id, "")
+
     def handle_event_intent(self, hermes, intent_message, body, event):
         """Handle an "event" intent: rise or set of a celestial body"""
         if intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD:
@@ -82,6 +90,8 @@ class CelestialApp:
                 "harthur:Sunset", self.sunset_callback
             ).subscribe_intent(
                 "harthur:MoonPhase", self.moon_phase_callback
+            ).subscribe_intent(
+                "harthur:ClearScreen", self.clear_screen_callback
             ).loop_forever()
 
 
