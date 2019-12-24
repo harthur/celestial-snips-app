@@ -1,12 +1,22 @@
+import pytz
+
+
 class CelestialStrings:
     """Construct voice messages for Celestial app using parameters"""
+
+    # Assume all times are said in local time for the ET timezone
+    ET_TZ = pytz.timezone("US/Eastern")
 
     def __init__(self):
         pass
 
     @staticmethod
     def get_time_str(dt):
-        return dt.strftime("%I:%M%p")
+        # Say the time in their local time (assumed to be Eastern/US)
+        utc_dt = pytz.utc.localize(dt)
+        et_dt = utc_dt.astimezone(CelestialStrings.ET_TZ)
+
+        return et_dt.strftime("%I:%M%p")
 
     @staticmethod
     def get_cardinal_str(degrees):
