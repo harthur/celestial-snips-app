@@ -45,6 +45,12 @@ class CelestialApp:
     def sunset_callback(self, hermes, intent_message):
         self.handle_event_intent(hermes, intent_message, "sun", "set")
 
+    def venusrise_callback(self, hermes, intent_message):
+        self.handle_event_intent(hermes, intent_message, "venus", "rise")
+
+    def venusset_callback(self, hermes, intent_message):
+        self.handle_event_intent(hermes, intent_message, "venus", "set")
+
     def moon_phase_callback(self, hermes, intent_message):
         if intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD:
             return
@@ -88,6 +94,10 @@ class CelestialApp:
                 "harthur:Sunrise", self.sunrise_callback
             ).subscribe_intent(
                 "harthur:Sunset", self.sunset_callback
+            ).subscribe_intent(
+                "harthur:VenusRise", self.venusrise_callback
+            ).subscribe_intent(
+                "harthur:VenusSet", self.venusset_callback
             ).subscribe_intent(
                 "harthur:MoonPhase", self.moon_phase_callback
             ).subscribe_intent(

@@ -7,9 +7,9 @@ import datetime
 
 
 class Celestial:
-    """Getting moon and sun rise and set times from hard-coded charts for Virginia"""
+    """Getting celestial body rise and set times from hard-coded charts for Virginia"""
 
-    BODIES = ["moon", "sun"]
+    BODIES = ["moon", "sun", "venus", "mars", "jupiter", "orion"]
 
     def __init__(self):
         self.charts = {}
@@ -39,7 +39,7 @@ class Celestial:
             event_dt = self.get_datetime_from_iso(day[event]["time"])
 
             # Found the first event after the current time.
-            # Assumes sequential order in the time file
+            # Assumes sequential order in the chart
             if event_dt > start_dt:
                 is_tomorrow = event_dt.date() > start_dt.date()
                 azimuth = day[event]["azimuth"]
