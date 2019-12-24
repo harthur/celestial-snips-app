@@ -48,7 +48,7 @@ class CelestialStrings:
         day_str = CelestialStrings.get_day_str(is_tomorrow)
         dir_str = CelestialStrings.get_cardinal_str(azimuth)
 
-        return "The next %s%s is at %s %s, in the %s" % (
+        return "The next %s %s is at %s %s, in the %s" % (
             body,
             event,
             time_str,

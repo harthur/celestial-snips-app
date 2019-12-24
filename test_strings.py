@@ -46,7 +46,7 @@ class TestCelestial(unittest.TestCase):
 
         self.assertEqual(
             CelestialStrings.get_event_message(body, event, event_info),
-            "The next moonrise is at 08:24AM tomorrow, in the south southeast",
+            "The next moon rise is at 08:24AM tomorrow, in the south southeast",
         )
 
     def test_get_moon_phase_message(self):
