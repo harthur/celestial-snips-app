@@ -11,7 +11,7 @@ class CelestialStrings:
         pass
 
     @staticmethod
-    def get_time_str(dt):
+    def get_local_time_str(dt):
         # Say the time in their local time (assumed to be Eastern/US)
         utc_dt = pytz.utc.localize(dt)
         et_dt = utc_dt.astimezone(CelestialStrings.ET_TZ)
@@ -44,7 +44,7 @@ class CelestialStrings:
     def get_event_message(body, event, event_info):
         (dt, is_tomorrow, azimuth) = event_info
 
-        time_str = CelestialStrings.get_time_str(dt)
+        time_str = CelestialStrings.get_local_time_str(dt)
         day_str = CelestialStrings.get_day_str(is_tomorrow)
         dir_str = CelestialStrings.get_cardinal_str(azimuth)
 

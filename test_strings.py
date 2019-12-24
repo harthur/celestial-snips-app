@@ -13,11 +13,11 @@ class TestCelestial(unittest.TestCase):
     def setUp(self):
         ...
 
-    def test_get_time_str(self):
+    def test_get_local_time_str(self):
         input = datetime(2019, 12, 1, 13, 24, 0, 0)
-        expected = "01:24PM"
+        expected = "08:24AM"
 
-        self.assertEqual(CelestialStrings.get_time_str(input), expected)
+        self.assertEqual(CelestialStrings.get_local_time_str(input), expected)
 
     def test_get_cardinal_str(self):
         self.assertEqual(
@@ -46,7 +46,7 @@ class TestCelestial(unittest.TestCase):
 
         self.assertEqual(
             CelestialStrings.get_event_message(body, event, event_info),
-            "The next moonrise is at 01:24PM tomorrow, in the south southeast",
+            "The next moonrise is at 08:24AM tomorrow, in the south southeast",
         )
 
     def test_get_moon_phase_message(self):
