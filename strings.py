@@ -48,9 +48,12 @@ class CelestialStrings:
         day_str = CelestialStrings.get_day_str(is_tomorrow)
         dir_str = CelestialStrings.get_cardinal_str(azimuth)
 
-        return "The next %s %s is at %s %s, in the %s" % (
-            body,
-            event,
+        event_str = (
+            body + event if body == "moon" or body == "sun" else body + " " + event
+        )
+
+        return "The next %s is at %s %s, in the %s" % (
+            event_str,
             time_str,
             day_str,
             dir_str,
