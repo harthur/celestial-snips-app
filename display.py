@@ -49,7 +49,7 @@ class SenseDisplay:
             img_fname = "%s%s.png" % (trend, percent)
 
         # The full white is too bright
-        self.sense.low_light = False
+        self.sense.low_light = True
 
         self.sense.load_image("phase-images/%s" % img_fname)
 
