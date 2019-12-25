@@ -40,8 +40,8 @@ class CelestialStrings:
     @staticmethod
     def get_day_str(event_dt):
         now_dt = datetime.datetime.now()
-        local_now = CelestialStrings.ET_TZ.localize(now_dt)
-        local_event = CelestialStrings.ET_TZ.localize(event_dt)
+        local_now = pytz.utc.localize(now_dt).astimezone(CelestialStrings.ET_TZ)
+        local_event = pytz.utc.localize(event_dt).astimezone(CelestialStrings.ET_TZ)
 
         is_tomorrow = local_event.date() > local_now.date()
 
