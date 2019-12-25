@@ -41,10 +41,9 @@ class Celestial:
             # Found the first event after the current time.
             # Assumes sequential order in the chart
             if event_dt > start_dt:
-                is_tomorrow = event_dt.date() > start_dt.date()
                 azimuth = day[event]["azimuth"]
 
-                return (event_dt, is_tomorrow, azimuth)
+                return (event_dt, azimuth)
 
     def get_moon_phase(self):
         # These numbers are just guesses.

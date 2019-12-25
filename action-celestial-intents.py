@@ -51,6 +51,24 @@ class CelestialApp:
     def venusset_callback(self, hermes, intent_message):
         self.handle_event_intent(hermes, intent_message, "venus", "set")
 
+    def marsrise_callback(self, hermes, intent_message):
+        self.handle_event_intent(hermes, intent_message, "mars", "rise")
+
+    def marsset_callback(self, hermes, intent_message):
+        self.handle_event_intent(hermes, intent_message, "mars", "set")
+
+    def jupiterrise_callback(self, hermes, intent_message):
+        self.handle_event_intent(hermes, intent_message, "jupiter", "rise")
+
+    def jupiterset_callback(self, hermes, intent_message):
+        self.handle_event_intent(hermes, intent_message, "jupiter", "set")
+
+    def orionrise_callback(self, hermes, intent_message):
+        self.handle_event_intent(hermes, intent_message, "orion", "rise")
+
+    def orionset_callback(self, hermes, intent_message):
+        self.handle_event_intent(hermes, intent_message, "orion", "set")
+
     def moon_phase_callback(self, hermes, intent_message):
         if intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD:
             return
@@ -76,7 +94,7 @@ class CelestialApp:
             return
 
         event_info = self.celestial.get_next_event(body, event)
-        (event_dt, is_tomorrow, azimuth) = event_info
+        (event_dt, azimuth) = event_info
 
         self.display.display_direction(azimuth)
 

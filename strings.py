@@ -1,3 +1,4 @@
+import datetime
 import pytz
 
 
@@ -37,15 +38,21 @@ class CelestialStrings:
         return cardinals[index]
 
     @staticmethod
-    def get_day_str(is_tomorrow):
+    def get_day_str(event_dt):
+        now_dt = datetime.datetime.now()
+        local_now = CelestialStrings.ET_TZ.localize(now_dt)
+        local_event = CelestialStrings.ET_TZ.localize(event_dt)
+
+        is_tomorrow = local_event.date() > local_now.date()
+
         return "tomorrow" if is_tomorrow else "today"
 
     @staticmethod
     def get_event_message(body, event, event_info):
-        (dt, is_tomorrow, azimuth) = event_info
+        (dt, azimuth) = event_info
 
         time_str = CelestialStrings.get_local_time_str(dt)
-        day_str = CelestialStrings.get_day_str(is_tomorrow)
+        day_str = CelestialStrings.get_day_str(dt)
         dir_str = CelestialStrings.get_cardinal_str(azimuth)
 
         event_str = (
