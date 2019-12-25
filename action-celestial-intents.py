@@ -22,7 +22,8 @@ INTENT_CONFIDENCE_THRESHOLD = 0.65
 class CelestialApp:
     """
     Handlers for intents for a "Celestial" Snips voice assistant
-    Reports Moon and Sun rising and setting times as well as cardinal directions.
+    Reports Moon, Sun etc. rising and setting times as well as cardinal directions.
+    And the current moon phase
     """
 
     def __init__(self):
@@ -45,28 +46,28 @@ class CelestialApp:
     def sunset_callback(self, hermes, intent_message):
         self.handle_event_intent(hermes, intent_message, "sun", "set")
 
-    def venusrise_callback(self, hermes, intent_message):
+    def venus_rise_callback(self, hermes, intent_message):
         self.handle_event_intent(hermes, intent_message, "venus", "rise")
 
-    def venusset_callback(self, hermes, intent_message):
+    def venus_set_callback(self, hermes, intent_message):
         self.handle_event_intent(hermes, intent_message, "venus", "set")
 
-    def marsrise_callback(self, hermes, intent_message):
+    def mars_rise_callback(self, hermes, intent_message):
         self.handle_event_intent(hermes, intent_message, "mars", "rise")
 
-    def marsset_callback(self, hermes, intent_message):
+    def mars_set_callback(self, hermes, intent_message):
         self.handle_event_intent(hermes, intent_message, "mars", "set")
 
-    def jupiterrise_callback(self, hermes, intent_message):
+    def jupiter_rise_callback(self, hermes, intent_message):
         self.handle_event_intent(hermes, intent_message, "jupiter", "rise")
 
-    def jupiterset_callback(self, hermes, intent_message):
+    def jupiter_set_callback(self, hermes, intent_message):
         self.handle_event_intent(hermes, intent_message, "jupiter", "set")
 
-    def orionrise_callback(self, hermes, intent_message):
+    def orion_rise_callback(self, hermes, intent_message):
         self.handle_event_intent(hermes, intent_message, "orion", "rise")
 
-    def orionset_callback(self, hermes, intent_message):
+    def orion_set_callback(self, hermes, intent_message):
         self.handle_event_intent(hermes, intent_message, "orion", "set")
 
     def moon_phase_callback(self, hermes, intent_message):
@@ -113,9 +114,21 @@ class CelestialApp:
             ).subscribe_intent(
                 "harthur:Sunset", self.sunset_callback
             ).subscribe_intent(
-                "harthur:VenusRise", self.venusrise_callback
+                "harthur:VenusRise", self.venus_rise_callback
             ).subscribe_intent(
-                "harthur:VenusSet", self.venusset_callback
+                "harthur:VenusSet", self.venus_set_callback
+            ).subscribe_intent(
+                "harthur:MarsRise", self.mars_rise_callback
+            ).subscribe_intent(
+                "harthur:MarsSet", self.mars_set_callback
+            ).subscribe_intent(
+                "harthur:JupiterRise", self.jupiter_rise_callback
+            ).subscribe_intent(
+                "harthur:JupiterSet", self.jupiter_set_callback
+            ).subscribe_intent(
+                "harthur:OrionRise", self.orion_rise_callback
+            ).subscribe_intent(
+                "harthur:OrionSet", self.orion_set_callback
             ).subscribe_intent(
                 "harthur:MoonPhase", self.moon_phase_callback
             ).subscribe_intent(

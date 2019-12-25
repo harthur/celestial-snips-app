@@ -3,7 +3,7 @@ import pytz
 
 
 class CelestialStrings:
-    """Construct voice messages for Celestial app using parameters"""
+    """Construct voice response messages for the Celestial app"""
 
     # Assume all times are said in local time for the ET timezone
     ET_TZ = pytz.timezone("US/Eastern")
