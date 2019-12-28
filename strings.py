@@ -38,21 +38,25 @@ class CelestialStrings:
         return cardinals[index]
 
     @staticmethod
-    def get_day_str(event_dt):
-        now_dt = datetime.datetime.now()
-        local_now = pytz.utc.localize(now_dt).astimezone(CelestialStrings.ET_TZ)
+    def get_day_str(start_dt, event_dt):
+        local_start = pytz.utc.localize(start_dt).astimezone(CelestialStrings.ET_TZ)
         local_event = pytz.utc.localize(event_dt).astimezone(CelestialStrings.ET_TZ)
 
-        is_tomorrow = local_event.date() > local_now.date()
+        if local_event.date() == local_start.date():
+            return "today"
 
-        return "tomorrow" if is_tomorrow else "today"
+        if (local_event.date() - local_start.date()) == datetime.timedelta(days=1):
+            return "tomorrow"
+
+        return local_event.strftime("%A, %B %d")
 
     @staticmethod
     def get_event_message(body, event, event_info):
         (dt, azimuth) = event_info
 
+        now = datetime.datetime.now()
+        day_str = CelestialStrings.get_day_str(now, dt)
         time_str = CelestialStrings.get_local_time_str(dt)
-        day_str = CelestialStrings.get_day_str(dt)
         dir_str = CelestialStrings.get_cardinal_str(azimuth)
 
         event_str = (
@@ -79,3 +83,11 @@ class CelestialStrings:
         if phase == "quarter" and trend == "waning":
             return "Last quarter"
         return "The moon is a %s %s" % (trend, phase)
+
+    @staticmethod
+    def get_next_moon_event_message(event, event_dt):
+        now = datetime.datetime.now()
+        day_str = CelestialStrings.get_day_str(now, event_dt)
+        time_str = CelestialStrings.get_local_time_str(event_dt)
+        return "The next %s moon is on %s at %s" % (event, day_str, time_str)
+

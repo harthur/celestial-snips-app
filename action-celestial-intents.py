@@ -4,6 +4,7 @@ from hermes_python.hermes import Hermes
 from display import SenseDisplay
 from celestial import Celestial
 from strings import CelestialStrings
+import datetime
 
 import os
 import pwd
@@ -81,6 +82,22 @@ class CelestialApp:
         msg = CelestialStrings.get_moon_phase_message(phase_info)
         hermes.publish_end_session(intent_message.session_id, msg)
 
+    def full_moon_callback(self, hermes, intent_message):
+        self.handle_next_moon_event_intent(hermes, intent_message, "full")
+
+    def new_moon_callback(self, hermes, intent_message):
+        self.handle_next_moon_event_intent(hermes, intent_message, "new")
+
+    def handle_next_moon_event_intent(self, hermes, intent_message, event):
+        if intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD:
+            return
+        self.display.clear_display()
+
+        now = datetime.datetime.now()
+        event_dt = self.celestial.get_next_moon_event(event, start_dt=now)
+        msg = CelestialStrings.get_next_moon_event_message(event, event_dt)
+        hermes.publish_end_session(intent_message.session_id, msg)
+
     def clear_display_callback(self, hermes, intent_message):
         if intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD:
             return
@@ -131,6 +148,10 @@ class CelestialApp:
                 "harthur:OrionSet", self.orion_set_callback
             ).subscribe_intent(
                 "harthur:MoonPhase", self.moon_phase_callback
+            ).subscribe_intent(
+                "harthur:FullMoon", self.full_moon_callback
+            ).subscribe_intent(
+                "harthur:NewMoon", self.new_moon_callback
             ).subscribe_intent(
                 "harthur:ClearDisplay", self.clear_display_callback
             ).loop_forever()

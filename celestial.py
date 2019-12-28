@@ -11,12 +11,20 @@ class Celestial:
 
     BODIES = ["moon", "sun", "venus", "mars", "jupiter", "orion"]
 
+    MOON_EVENTS = ["full", "new"]
+
     def __init__(self):
         self.charts = {}
         for body in self.BODIES:
             fname = "./charts/%s-va.json" % body
             with open(fname) as f:
                 self.charts[body] = json.loads(f.read())
+
+        self.moon_charts = {}
+        for event in self.MOON_EVENTS:
+            fname = "./charts/%s-moon.json" % event
+            with open(fname) as f:
+                self.moon_charts[event] = json.loads(f.read())
 
     @staticmethod
     def get_datetime_from_iso(str):
@@ -45,7 +53,16 @@ class Celestial:
 
                 return (event_dt, azimuth)
 
+    def get_next_moon_event(self, event, start_dt):
+        """ Get the time of the next given moon phase event after the given date"""
+        for date in self.moon_charts[event]:
+            event_dt = self.get_datetime_from_iso(date)
+            # Assume cronological order in list
+            if event_dt > start_dt:
+                return event_dt
+
     def get_moon_phase(self):
+        """Get the current moon phase and waxing/waning information"""
         # These numbers are just guesses.
         phases = {
             "new": (0, 0.005),

@@ -14,10 +14,28 @@ class TestCelestial(unittest.TestCase):
         ...
 
     def test_get_local_time_str(self):
-        input = datetime(2019, 12, 1, 13, 24, 0, 0)
+        input = datetime(2019, 12, 1, 13, 24)
         expected = "08:24AM"
 
         self.assertEqual(CelestialStrings.get_local_time_str(input), expected)
+
+    def test_get_day_str_today(self):
+        start_dt = datetime(2019, 12, 1, 0, 0)
+        event_dt = datetime(2019, 12, 1, 3, 4)
+        expected = "today"
+        self.assertEqual(CelestialStrings.get_day_str(start_dt, event_dt), expected)
+
+    def test_get_day_str_tomorrow(self):
+        start_dt = datetime(2019, 12, 1, 0, 0)
+        event_dt = datetime(2019, 12, 2, 3, 4)
+        expected = "tomorrow"
+        self.assertEqual(CelestialStrings.get_day_str(start_dt, event_dt), expected)
+
+    def test_get_day_str_next_week(self):
+        start_dt = datetime(2019, 12, 1, 0, 0)
+        event_dt = datetime(2019, 12, 8, 3, 4)
+        expected = "Saturday, December 07"
+        self.assertEqual(CelestialStrings.get_day_str(start_dt, event_dt), expected)
 
     def test_get_cardinal_str(self):
         self.assertEqual(
@@ -41,23 +59,23 @@ class TestCelestial(unittest.TestCase):
     def test_get_event_message(self):
         body = "moon"
         event = "rise"
-        dt = datetime(2019, 12, 1, 13, 24, 0, 0)
-        event_info = (dt, True, 120)
+        dt = datetime(2019, 12, 1, 13, 24)
+        event_info = (dt, 120)
 
         self.assertEqual(
             CelestialStrings.get_event_message(body, event, event_info),
-            "The next moonrise is at 08:24AM tomorrow, in the south southeast",
+            "The next moonrise is at 08:24AM Sunday, December 01, in the south southeast",
         )
 
     def test_get_event_message_planet(self):
         body = "venus"
         event = "set"
-        dt = datetime(2019, 12, 1, 13, 24, 0, 0)
-        event_info = (dt, True, 120)
+        dt = datetime(2019, 12, 1, 13, 24)
+        event_info = (dt, 120)
 
         self.assertEqual(
             CelestialStrings.get_event_message(body, event, event_info),
-            "The next venus set is at 08:24AM tomorrow, in the south southeast",
+            "The next venus set is at 08:24AM Sunday, December 01, in the south southeast",
         )
 
     def test_get_moon_phase_message(self):
@@ -66,4 +84,13 @@ class TestCelestial(unittest.TestCase):
         self.assertEqual(
             CelestialStrings.get_moon_phase_message(phase_info),
             "The moon is a waning crescent",
+        )
+
+    def test_get_next_moon_event_message(self):
+        start_dt = datetime(2019, 12, 1, 0, 0)
+        event_dt = datetime(2019, 12, 8, 3, 4)
+
+        expected = "The next full moon is on Saturday, December 07 at 10:04PM"
+        self.assertEqual(
+            CelestialStrings.get_next_moon_event_message("full", event_dt), expected
         )
