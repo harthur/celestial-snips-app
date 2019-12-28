@@ -159,7 +159,6 @@ class CelestialApp:
                 "harthur:ClearDisplay", self.clear_display_callback
             ).subscribe_session_started(
                 self.session_started_callback
-            )
             ).loop_forever()
 
 
