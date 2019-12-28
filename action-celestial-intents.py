@@ -119,9 +119,6 @@ class CelestialApp:
         msg = CelestialStrings.get_event_message(body, event, event_info)
         hermes.publish_end_session(intent_message.session_id, msg)
 
-    def session_started_callback(self):
-        self.display.display_heart()
-
     # register callback function to its intent and start listen to MQTT bus
     def start_blocking(self):
         with Hermes(MQTT_ADDR) as h:
@@ -157,8 +154,6 @@ class CelestialApp:
                 "harthur:NewMoon", self.new_moon_callback
             ).subscribe_intent(
                 "harthur:ClearDisplay", self.clear_display_callback
-            ).subscribe_session_started(
-                self.session_started_callback
             ).loop_forever()
 
 
