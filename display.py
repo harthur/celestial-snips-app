@@ -24,9 +24,10 @@ class SenseDisplay:
         Take the cardinal direction in degrees, and display
         an "arrow" on the Sense HAT pointing in that direction.
         """
-        # Adjust direction to the current orientation of the HAT
-        north = self.sense.get_compass()
-        print("NORTH: %s" % north)
+
+        # Hard code this, as magnetometer calibration didn't work
+        # TODO: Adjust direction to the current orientation of the HAT
+        north = 0
         adjusted_degrees = 180 - (int(degrees) + north) % 360
 
         radians = math.radians(adjusted_degrees)
