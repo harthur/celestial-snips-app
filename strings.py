@@ -89,5 +89,5 @@ class CelestialStrings:
         now = datetime.datetime.now()
         day_str = CelestialStrings.get_day_str(now, event_dt)
         time_str = CelestialStrings.get_local_time_str(event_dt)
-        return "The next %s moon is on %s at %s" % (event, day_str, time_str)
+        return "The next %s moon is on %s, at %s" % (event, day_str, time_str)
 
