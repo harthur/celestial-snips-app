@@ -54,5 +54,8 @@ class SenseDisplay:
 
         self.sense.load_image("phase-images/%s" % img_fname)
 
+    def display_heart(self):
+        self.sense.show_message("<3")
+
     def clear_display(self):
         self.sense.clear()
