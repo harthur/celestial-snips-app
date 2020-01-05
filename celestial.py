@@ -7,7 +7,7 @@ import datetime
 
 
 class Celestial:
-    """Getting celestial body rise and set times from hard-coded charts for Virginia"""
+    """Provides celestial rise and set times from hard-coded charts for Virginia"""
 
     BODIES = ["moon", "sun", "venus", "mars", "jupiter", "orion"]
 
@@ -36,9 +36,11 @@ class Celestial:
         return self.get_next_event_after_dt(now_dt, body, event)
 
     def get_next_event_after_dt(self, start_dt, body="moon", event="rise"):
-        """Get the next rise/set by looking up the date in a chart of rise/set
+        """
+        Get the next rise/set by looking up the date in a chart of rise/set
         times as obtained from the US Naval Observatory at https://aa.usno.navy.mil
-        Other methods, such as using astropy's astroplan, were too slow."""
+        Other methods, such as using astropy's astroplan, were too slow.
+        """
 
         for day in self.charts[body]:
             if not event in day:

@@ -22,9 +22,9 @@ INTENT_CONFIDENCE_THRESHOLD = 0.45
 
 class CelestialApp:
     """
-    Handlers for intents for a "Celestial" Snips voice assistant
-    Reports Moon, Sun etc. rising and setting times as well as cardinal directions.
-    And the current moon phase
+    Handlers for intents for a "Celestial" Snips voice assistant.
+    Reports Moon, Sun etc. rising and setting times as well as cardinal directions,
+    current moon phase, and next full or new moons.
     """
 
     def __init__(self):
@@ -33,7 +33,7 @@ class CelestialApp:
 
         # Start listening to MQTT
         # Must be last. Anything after this line won't be reached!
-        self.start_blocking()
+        self.start_listening()
 
     def moonrise_callback(self, hermes, intent_message):
         self.handle_event_intent(hermes, intent_message, "moon", "rise")
@@ -120,7 +120,7 @@ class CelestialApp:
         hermes.publish_end_session(intent_message.session_id, msg)
 
     # register callback function to its intent and start listen to MQTT bus
-    def start_blocking(self):
+    def start_listening(self):
         with Hermes(MQTT_ADDR) as h:
             h.subscribe_intent(
                 "harthur:Moonrise", self.moonrise_callback
