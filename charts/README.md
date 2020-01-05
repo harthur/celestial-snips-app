@@ -1,0 +1,1 @@
+These charts were obtained from the [US Naval Observatory](https://www.usno.navy.mil/USNO) website, using the JavaScript browser snippets here: https://gist.github.com/harthur/a4a3d33b96120a1030805cd6b3fde7ef
