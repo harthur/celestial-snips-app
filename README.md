@@ -6,7 +6,7 @@ This is a [Snips](snips.ai) voice assistant that runs on a Raspberry Pi 3 that h
 
 The first part of these instructions come from: https://docs.snips.ai/getting-started/quick-start-raspberry-pi
 
-1) Burn [Raspian Stretch](https://www.raspberrypi.org/documentation/installation/installing-images/) onto a 16GB-128GB micro SD Card. If it doesn't work, try sliding the little “read-only” physical switch on SD card.
+1) Burn [Raspian Stretch](https://www.raspberrypi.org/documentation/installation/installing-images/) onto a 16GB-128GB micro SD Card. Make sure the “read-only” physical switch on the SD card is set to off.
 
 2) Add a `wpa_supplicant.conf` to the `/boot` directory of the SD card that looks like this:
 
@@ -43,7 +43,7 @@ So that it can connect to wifi when it boots. In the future, you can edit this f
 
 8) Always shut down the Pi with `sudo shutdown now` and wait for Pi light to stop blinking. This prevents the SD card from being corrupted if it's interrupted by unplugging the power supply.
 
-# Sense HAT set-up
+# Sense HAT setup
 
 1) Plug the Sense HAT into the Pi's GPIO pins
 
