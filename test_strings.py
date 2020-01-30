@@ -90,7 +90,22 @@ class TestCelestial(unittest.TestCase):
         start_dt = datetime(2019, 12, 1, 0, 0)
         event_dt = datetime(2019, 12, 8, 3, 4)
 
-        expected = "The next full moon is on Saturday, December 07 at 10:04PM"
+        expected = "The next full moon is on Saturday, December 07, at 10:04PM"
         self.assertEqual(
             CelestialStrings.get_next_moon_event_message("full", event_dt), expected
+        )
+
+    def test_get_next_iss_sighting_message(self):
+        sighting = {
+            "alt_degrees": 66,
+            "approach_dir": "NW",
+            "depart_dir": "SE",
+            "duration_mins": 6,
+            "time": datetime(2020, 2, 7, 23, 51),
+        }
+
+        expected = "The next ISS sighting is Friday, February 07 at 06:51PM, moving from the NW to the SE"
+
+        self.assertEqual(
+            CelestialStrings.get_next_iss_sighting_message(sighting), expected
         )

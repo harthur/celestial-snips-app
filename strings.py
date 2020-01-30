@@ -91,3 +91,16 @@ class CelestialStrings:
         time_str = CelestialStrings.get_local_time_str(event_dt)
         return "The next %s moon is on %s, at %s" % (event, day_str, time_str)
 
+    @staticmethod
+    def get_next_iss_sighting_message(sighting):
+        dt = sighting["time"]
+        now = datetime.datetime.now()
+        day_str = CelestialStrings.get_day_str(now, dt)
+        time_str = CelestialStrings.get_local_time_str(dt)
+
+        return "The next ISS sighting is %s at %s, moving from the %s to the %s" % (
+            day_str,
+            time_str,
+            sighting["approach_dir"],
+            sighting["depart_dir"],
+        )
