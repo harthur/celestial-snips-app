@@ -42,9 +42,7 @@ class TestCelestial(unittest.TestCase):
             CelestialStrings.get_cardinal_str(0), "north", "0 degrees is North"
         )
         self.assertEqual(
-            CelestialStrings.get_cardinal_str(50),
-            "north northeast",
-            "50 degrees is NNE",
+            CelestialStrings.get_cardinal_str(50), "northeast", "50 degrees is NE",
         )
         self.assertEqual(
             CelestialStrings.get_cardinal_str(88), "east", "88 degrees is East"
@@ -56,6 +54,12 @@ class TestCelestial(unittest.TestCase):
             CelestialStrings.get_cardinal_str(350), "north", "350 degrees is North"
         )
 
+    def test_get_cardinal_str_from_abbr(self):
+        self.assertEqual(CelestialStrings.get_cardinal_str_from_abbr("N"), "north")
+        self.assertEqual(
+            CelestialStrings.get_cardinal_str_from_abbr("SSE"), "south southeast"
+        )
+
     def test_get_event_message(self):
         body = "moon"
         event = "rise"
@@ -64,7 +68,7 @@ class TestCelestial(unittest.TestCase):
 
         self.assertEqual(
             CelestialStrings.get_event_message(body, event, event_info),
-            "The next moonrise is at 08:24AM Sunday, December 01, in the south southeast",
+            "The next moonrise is at 08:24AM Sunday, December 01, in the southeast",
         )
 
     def test_get_event_message_planet(self):
@@ -75,7 +79,7 @@ class TestCelestial(unittest.TestCase):
 
         self.assertEqual(
             CelestialStrings.get_event_message(body, event, event_info),
-            "The next venus set is at 08:24AM Sunday, December 01, in the south southeast",
+            "The next venus set is at 08:24AM Sunday, December 01, in the southeast",
         )
 
     def test_get_moon_phase_message(self):
@@ -104,7 +108,7 @@ class TestCelestial(unittest.TestCase):
             "time": datetime(2020, 2, 7, 23, 51),
         }
 
-        expected = "You can see the space station Friday, February 07 at 06:51PM, moving from the NW to the SE"
+        expected = "You can see the space station Friday, February 07 at 06:51PM, moving from the northwest to the southeast"
 
         self.assertEqual(
             CelestialStrings.get_next_iss_sighting_message(sighting), expected

@@ -23,19 +23,37 @@ class CelestialStrings:
     def get_cardinal_str(degrees):
         cardinals = [
             "north",
-            "north northeast",
+            "northeast",
             "east",
-            "south southeast",
+            "southeast",
             "south",
-            "south southwest",
+            "southwest",
             "west",
-            "north northwest",
+            "northwest",
         ]
         per_cardinal = 360 / len(cardinals)
 
         # shift to accomodate north being in the range 337.5 - 360 and 0 - 22.5
         index = round(degrees % (360 - per_cardinal / 2) / per_cardinal)
         return cardinals[index]
+
+    @staticmethod
+    def get_cardinal_str_from_abbr(abbr):
+        full = {
+            "N": "north",
+            "NE": "northeast",
+            "NNE": "north northeast",
+            "E": "east",
+            "SE": "southeast",
+            "SSE": "south southeast",
+            "S": "south",
+            "SW": "southwest",
+            "SSW": "south southwest",
+            "W": "west",
+            "NW": "northwest",
+            "NNW": "north northwest",
+        }
+        return full[abbr]
 
     @staticmethod
     def get_day_str(start_dt, event_dt):
@@ -97,8 +115,10 @@ class CelestialStrings:
         now = datetime.datetime.now()
         day_str = CelestialStrings.get_day_str(now, dt)
         time_str = CelestialStrings.get_local_time_str(dt)
+        from_dir = CelestialStrings.get_cardinal_str_from_abbr(sighting["approach_dir"])
+        to_dir = CelestialStrings.get_cardinal_str_from_abbr(sighting["depart_dir"])
 
         return (
             "You can see the space station %s at %s, moving from the %s to the %s"
-            % (day_str, time_str, sighting["approach_dir"], sighting["depart_dir"],)
+            % (day_str, time_str, from_dir, to_dir)
         )
