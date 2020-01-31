@@ -3,6 +3,7 @@
 from hermes_python.hermes import Hermes
 from display import SenseDisplay
 from celestial import Celestial
+from iss import ISS
 from strings import CelestialStrings
 import datetime
 
@@ -30,6 +31,7 @@ class CelestialApp:
     def __init__(self):
         self.display = SenseDisplay()
         self.celestial = Celestial()
+        self.iss = ISS()
 
         # Start listening to MQTT
         # Must be last. Anything after this line won't be reached!
@@ -88,16 +90,6 @@ class CelestialApp:
     def new_moon_callback(self, hermes, intent_message):
         self.handle_next_moon_event_intent(hermes, intent_message, "new")
 
-    def handle_next_moon_event_intent(self, hermes, intent_message, event):
-        if intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD:
-            return
-        self.display.clear_display()
-
-        now = datetime.datetime.now()
-        event_dt = self.celestial.get_next_moon_event(event, start_dt=now)
-        msg = CelestialStrings.get_next_moon_event_message(event, event_dt)
-        hermes.publish_end_session(intent_message.session_id, msg)
-
     def clear_display_callback(self, hermes, intent_message):
         if intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD:
             return
@@ -105,6 +97,16 @@ class CelestialApp:
         self.display.clear_display()
 
         hermes.publish_end_session(intent_message.session_id, "")
+
+    def next_iss_callback(self, hermes, intent_message):
+        if intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD:
+            return
+
+        now = datetime.datetime.now()
+        sighting = self.iss.get_next_sighting(now)
+
+        msg = CelestialStrings.get_next_iss_sighting_message(sighting)
+        hermes.publish_end_session(intent_message.session_id, msg)
 
     def handle_event_intent(self, hermes, intent_message, body, event):
         """Handle an "event" intent: rise or set of a celestial body"""
@@ -117,6 +119,17 @@ class CelestialApp:
         self.display.display_direction(azimuth)
 
         msg = CelestialStrings.get_event_message(body, event, event_info)
+        hermes.publish_end_session(intent_message.session_id, msg)
+
+    def handle_next_moon_event_intent(self, hermes, intent_message, event):
+        """Handle an moon event intent: next full or new moon"""
+        if intent_message.intent.confidence_score < INTENT_CONFIDENCE_THRESHOLD:
+            return
+        self.display.clear_display()
+
+        now = datetime.datetime.now()
+        event_dt = self.celestial.get_next_moon_event(event, start_dt=now)
+        msg = CelestialStrings.get_next_moon_event_message(event, event_dt)
         hermes.publish_end_session(intent_message.session_id, msg)
 
     # register callback function to its intent and start listen to MQTT bus
@@ -152,6 +165,8 @@ class CelestialApp:
                 "harthur:FullMoon", self.full_moon_callback
             ).subscribe_intent(
                 "harthur:NewMoon", self.new_moon_callback
+            ).subscribe_intent(
+                "harthur:NextISS", self.next_iss_callback
             ).subscribe_intent(
                 "harthur:ClearDisplay", self.clear_display_callback
             ).loop_forever()

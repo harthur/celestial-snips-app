@@ -104,7 +104,7 @@ class TestCelestial(unittest.TestCase):
             "time": datetime(2020, 2, 7, 23, 51),
         }
 
-        expected = "The next ISS sighting is Friday, February 07 at 06:51PM, moving from the NW to the SE"
+        expected = "You can see the space station Friday, February 07 at 06:51PM, moving from the NW to the SE"
 
         self.assertEqual(
             CelestialStrings.get_next_iss_sighting_message(sighting), expected

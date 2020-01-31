@@ -98,9 +98,7 @@ class CelestialStrings:
         day_str = CelestialStrings.get_day_str(now, dt)
         time_str = CelestialStrings.get_local_time_str(dt)
 
-        return "The next ISS sighting is %s at %s, moving from the %s to the %s" % (
-            day_str,
-            time_str,
-            sighting["approach_dir"],
-            sighting["depart_dir"],
+        return (
+            "You can see the space station %s at %s, moving from the %s to the %s"
+            % (day_str, time_str, sighting["approach_dir"], sighting["depart_dir"],)
         )
