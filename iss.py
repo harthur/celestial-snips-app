@@ -49,7 +49,7 @@ class ISS:
         time = arrow.get(time_str, "dddd MMM D, YYYY h:mm A", tzinfo="US/Eastern")
         dt = time.to("utc").naive
 
-        duration = int(re.search("\d+", sighting["Duration"]).group(0))
+        duration = int(re.search(r"\d+", sighting["Duration"]).group(0))
         elevation = int(sighting["Maximum Elevation"].strip("°"))
         approach_dir = sighting["Approach"].split(" ")[-1]
         depart_dir = sighting["Departure"].split(" ")[-1]
