@@ -1,7 +1,10 @@
-import urllib.request
-import xmltodict
-import arrow
 import re
+import urllib.request
+
+import arrow
+import xmltodict
+
+from spotthestation import SpotTheStation
 
 
 class ISS:
@@ -13,12 +16,12 @@ class ISS:
 
     MIN_ALT_DEGREES = 40
 
-    def __init__(self):
-        pass
+    def __init__(self, stationspotter=SpotTheStation()):
+        self.stationspotter = stationspotter
 
     def get_next_sighting(self, start_dt):
         """Get the next "good" ISS sighting after the given start time"""
-        rss_str = self._get_sightings_rss()
+        rss_str = self.stationspotter.get_sightings_rss()
 
         rss_data = xmltodict.parse(rss_str)
         items = rss_data["rss"]["channel"]["item"]
@@ -34,17 +37,12 @@ class ISS:
             ):
                 return sighting
 
-    def _get_sightings_rss(self):
-        with urllib.request.urlopen(self.RSS_URL) as resp:
-            xml = resp.read()
-            return xml
-
     def _parse_sighting(self, str):
         lines = str.split("<br/>")
         pairs = [line.strip().split(":", 1) for line in lines if line]
         sighting = {name: value.strip() for name, value in pairs}
 
-        # Parse bespoke time string, which looks like: "Monday Jan 20, 2020 6:34 PM"
+        # Parse their time string, which looks like "Monday Jan 20, 2020 6:34 PM"
         time_str = sighting["Date"] + " " + sighting["Time"]
         time = arrow.get(time_str, "dddd MMM D, YYYY h:mm A", tzinfo="US/Eastern")
         dt = time.to("utc").naive

@@ -1,9 +1,10 @@
+import datetime
+import json
+from pathlib import Path
 import astropy.units as u
 from astroplan import Observer
 from astropy.time import Time
 from astroplan import moon
-import json
-import datetime
 
 
 class Celestial:
@@ -15,14 +16,15 @@ class Celestial:
 
     def __init__(self):
         self.charts = {}
+        dirname = Path(__file__).parent
         for body in self.BODIES:
-            fname = "./charts/%s-va.json" % body
+            fname = dirname / ("charts/%s-va.json" % body)
             with open(fname) as f:
                 self.charts[body] = json.loads(f.read())
 
         self.moon_charts = {}
         for event in self.MOON_EVENTS:
-            fname = "./charts/%s-moon.json" % event
+            fname = dirname / ("charts/%s-moon.json" % event)
             with open(fname) as f:
                 self.moon_charts[event] = json.loads(f.read())
 
