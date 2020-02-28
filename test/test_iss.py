@@ -14,11 +14,11 @@ class TestISS(unittest.TestCase):
         path = Path(__file__).parent / "iss-feed.xml"
         with open(path, "r") as f:
             feed_xml = f.read()
-            self.mock_spotter = Mock(spec=SpotTheStation)
-            self.mock_spotter.get_sightings_rss.return_value = feed_xml
+            self.mock_feed = Mock(spec=SpotTheStation)
+            self.mock_feed.get_sightings_rss.return_value = feed_xml
 
     def test_get_next_sighting(self):
-        iss = ISS(self.mock_spotter)
+        iss = ISS(self.mock_feed)
 
         start_dt = datetime(2019, 12, 2, 0, 0, 0)
 

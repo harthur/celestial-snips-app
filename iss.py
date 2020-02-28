@@ -1,5 +1,4 @@
 import re
-import urllib.request
 
 import arrow
 import xmltodict
@@ -10,18 +9,19 @@ from spotthestation import SpotTheStation
 class ISS:
     """Class for getting ISS sightings -- hardcoded for Virginia"""
 
-    RSS_URL = "https://spotthestation.nasa.gov/sightings/xml_files/United_States_Virginia_Charlottesville.xml"
-
     MIN_DURATION_MINS = 4
 
     MIN_ALT_DEGREES = 40
 
-    def __init__(self, stationspotter=SpotTheStation()):
-        self.stationspotter = stationspotter
+    def __init__(self, iss_feed_provider=None):
+        if iss_feed_provider is None:
+            self.iss_feed_provider = SpotTheStation()
+        else:
+            self.iss_feed_provider = iss_feed_provider
 
     def get_next_sighting(self, start_dt):
         """Get the next "good" ISS sighting after the given start time"""
-        rss_str = self.stationspotter.get_sightings_rss()
+        rss_str = self.iss_feed_provider.get_sightings_rss()
 
         rss_data = xmltodict.parse(rss_str)
         items = rss_data["rss"]["channel"]["item"]

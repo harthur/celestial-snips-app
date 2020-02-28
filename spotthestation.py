@@ -2,7 +2,7 @@ import urllib
 
 
 class SpotTheStation:
-    """Class for interacting with spotthestation.gov which provides an RSS of ISS sightings
+    """Class for interacting with spotthestation.gov which provides an RSS feed of ISS sightings.
     
     This class is hard-coded to provide info for Virginia.
     """
