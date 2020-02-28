@@ -7,7 +7,7 @@ from spotthestation import SpotTheStation
 
 
 class ISS:
-    """Class for getting ISS sightings -- hardcoded for Virginia"""
+    """Provides information about upcoming ISS sightings from Virginia."""
 
     MIN_DURATION_MINS = 4
 
@@ -38,6 +38,13 @@ class ISS:
                 return sighting
 
     def _parse_sighting(self, str):
+        """Extract single sighting info from a spotthestation.gov RSS XML string"""
+
+        # Example sighting text:
+        # "Date: Wednesday Mar 4, 2020 <br/> Time: 6:19 AM <br/>
+        # Duration: 1 minute <br/> Maximum Elevation: 10° <br/>
+        # Approach: 10° above N <br/> Departure: 10° above NNE <br/>"
+
         lines = str.split("<br/>")
         pairs = [line.strip().split(":", 1) for line in lines if line]
         sighting = {name: value.strip() for name, value in pairs}

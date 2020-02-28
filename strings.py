@@ -3,7 +3,7 @@ import pytz
 
 
 class CelestialStrings:
-    """Construct voice response messages for the Celestial app"""
+    """Constructs different voice response messages for the Celestial app"""
 
     # Assume all times are said in local time for the ET timezone
     ET_TZ = pytz.timezone("US/Eastern")
@@ -12,15 +12,16 @@ class CelestialStrings:
         pass
 
     @staticmethod
-    def get_local_time_str(dt):
-        # Say the time in their local time (assumed to be Eastern/US)
+    def _get_local_time_str(dt):
+        """Get a string for the US/Eastern wall time given a datetime object."""
         utc_dt = pytz.utc.localize(dt)
         et_dt = utc_dt.astimezone(CelestialStrings.ET_TZ)
 
         return et_dt.strftime("%I:%M%p")
 
     @staticmethod
-    def get_cardinal_str(degrees):
+    def _get_cardinal_str(degrees):
+        """Get cardinal direction string from azimuth angle."""
         cardinals = [
             "north",
             "northeast",
@@ -38,8 +39,10 @@ class CelestialStrings:
         return cardinals[index]
 
     @staticmethod
-    def get_cardinal_str_from_abbr(abbr):
-        full = {
+    def _get_cardinal_str_from_abbr(abbr):
+        """Get cardinal direction string from its abbreviation."""
+
+        full_str = {
             "N": "north",
             "NE": "northeast",
             "NNE": "north northeast",
@@ -53,10 +56,15 @@ class CelestialStrings:
             "NW": "northwest",
             "NNW": "north northwest",
         }
-        return full[abbr]
+        return full_str[abbr]
 
     @staticmethod
-    def get_day_str(start_dt, event_dt):
+    def _get_day_str(start_dt, event_dt):
+        """Get a colloquial string for how this day relates to a start date.
+        
+        e.g. if the `start_dt` is the same day as the `event_dt`, returns "today"
+        """
+
         local_start = pytz.utc.localize(start_dt).astimezone(CelestialStrings.ET_TZ)
         local_event = pytz.utc.localize(event_dt).astimezone(CelestialStrings.ET_TZ)
 
@@ -70,12 +78,13 @@ class CelestialStrings:
 
     @staticmethod
     def get_event_message(body, event, event_info):
+        """Get a string announcing the next rise or set for a body."""
         (dt, azimuth) = event_info
 
         now = datetime.datetime.now()
-        day_str = CelestialStrings.get_day_str(now, dt)
-        time_str = CelestialStrings.get_local_time_str(dt)
-        dir_str = CelestialStrings.get_cardinal_str(azimuth)
+        day_str = CelestialStrings._get_day_str(now, dt)
+        time_str = CelestialStrings._get_local_time_str(dt)
+        dir_str = CelestialStrings._get_cardinal_str(azimuth)
 
         event_str = (
             body + event if body == "moon" or body == "sun" else body + " " + event
@@ -90,7 +99,8 @@ class CelestialStrings:
 
     @staticmethod
     def get_moon_phase_message(phase_info):
-        (trend, phase, illumination) = phase_info
+        """Get a string announcing the moon phase, based on the given info."""
+        (trend, phase, _) = phase_info
 
         if phase == "full":
             return "It's a full moon today"
@@ -104,19 +114,25 @@ class CelestialStrings:
 
     @staticmethod
     def get_next_moon_event_message(event, event_dt):
+        """Get a string announcing the next full or new moon, given a date"""
+
         now = datetime.datetime.now()
-        day_str = CelestialStrings.get_day_str(now, event_dt)
-        time_str = CelestialStrings.get_local_time_str(event_dt)
+        day_str = CelestialStrings._get_day_str(now, event_dt)
+        time_str = CelestialStrings._get_local_time_str(event_dt)
         return "The next %s moon is on %s, at %s" % (event, day_str, time_str)
 
     @staticmethod
     def get_next_iss_sighting_message(sighting):
+        """Get a string announcing next ISS sighting from an ISS sighting object"""
+
         dt = sighting["time"]
         now = datetime.datetime.now()
-        day_str = CelestialStrings.get_day_str(now, dt)
-        time_str = CelestialStrings.get_local_time_str(dt)
-        from_dir = CelestialStrings.get_cardinal_str_from_abbr(sighting["approach_dir"])
-        to_dir = CelestialStrings.get_cardinal_str_from_abbr(sighting["depart_dir"])
+        day_str = CelestialStrings._get_day_str(now, dt)
+        time_str = CelestialStrings._get_local_time_str(dt)
+        from_dir = CelestialStrings._get_cardinal_str_from_abbr(
+            sighting["approach_dir"]
+        )
+        to_dir = CelestialStrings._get_cardinal_str_from_abbr(sighting["depart_dir"])
 
         return (
             "You can see the space station %s at %s, moving from the %s to the %s"

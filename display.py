@@ -3,9 +3,10 @@ import math
 
 
 class SenseDisplay:
-    """
-    Using the LED display on the Sense HAT to display cardinal direction
-    arrows and moon phases.
+    """Interacts with the LED display on the Raspberry Pi Sense HAT
+    
+    Methods for displaying direction pixels and moon phase images, as well as
+    clearing the display.
     """
 
     size = 8
@@ -15,10 +16,7 @@ class SenseDisplay:
         self.sense = SenseHat()
 
     def display_direction(self, degrees=0):
-        """ 
-        Take the cardinal direction in degrees, and display
-        an "arrow" on the Sense HAT pointing in that direction.
-        """
+        """Take the cardinal direction in degrees and light up a pixel in that direction."""
 
         # Hard code North, as magnetometer calibration didn't work.
         # TODO: Adjust direction to the current orientation of the HAT
@@ -36,10 +34,9 @@ class SenseDisplay:
         self.sense.set_pixel(int(x), int(y), self.on_color)
 
     def display_moon_phase(self, phase_info):
-        """
-        Display an image of the moon at the given phase.
-        """
-        (trend, phase, illumination) = phase_info
+        """Display an image of the moon at the given phase."""
+
+        (trend, _, illumination) = phase_info
 
         percent = round(illumination * 10) * 10
 
@@ -56,4 +53,5 @@ class SenseDisplay:
         self.sense.load_image("phase-images/%s" % img_fname)
 
     def clear_display(self):
+        """Turn off all of the LEDs off the display"""
         self.sense.clear()

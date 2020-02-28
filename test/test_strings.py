@@ -17,47 +17,47 @@ class TestCelestial(unittest.TestCase):
         input = datetime(2019, 12, 1, 13, 24)
         expected = "08:24AM"
 
-        self.assertEqual(CelestialStrings.get_local_time_str(input), expected)
+        self.assertEqual(CelestialStrings._get_local_time_str(input), expected)
 
     def test_get_day_str_today(self):
         start_dt = datetime(2019, 12, 1, 0, 0)
         event_dt = datetime(2019, 12, 1, 3, 4)
         expected = "today"
-        self.assertEqual(CelestialStrings.get_day_str(start_dt, event_dt), expected)
+        self.assertEqual(CelestialStrings._get_day_str(start_dt, event_dt), expected)
 
     def test_get_day_str_tomorrow(self):
         start_dt = datetime(2019, 12, 1, 0, 0)
         event_dt = datetime(2019, 12, 2, 3, 4)
         expected = "tomorrow"
-        self.assertEqual(CelestialStrings.get_day_str(start_dt, event_dt), expected)
+        self.assertEqual(CelestialStrings._get_day_str(start_dt, event_dt), expected)
 
     def test_get_day_str_next_week(self):
         start_dt = datetime(2019, 12, 1, 0, 0)
         event_dt = datetime(2019, 12, 8, 3, 4)
         expected = "Saturday, December 07"
-        self.assertEqual(CelestialStrings.get_day_str(start_dt, event_dt), expected)
+        self.assertEqual(CelestialStrings._get_day_str(start_dt, event_dt), expected)
 
     def test_get_cardinal_str(self):
         self.assertEqual(
-            CelestialStrings.get_cardinal_str(0), "north", "0 degrees is North"
+            CelestialStrings._get_cardinal_str(0), "north", "0 degrees is North"
         )
         self.assertEqual(
-            CelestialStrings.get_cardinal_str(50), "northeast", "50 degrees is NE",
+            CelestialStrings._get_cardinal_str(50), "northeast", "50 degrees is NE",
         )
         self.assertEqual(
-            CelestialStrings.get_cardinal_str(88), "east", "88 degrees is East"
+            CelestialStrings._get_cardinal_str(88), "east", "88 degrees is East"
         )
         self.assertEqual(
-            CelestialStrings.get_cardinal_str(180), "south", "180 degrees is South"
+            CelestialStrings._get_cardinal_str(180), "south", "180 degrees is South"
         )
         self.assertEqual(
-            CelestialStrings.get_cardinal_str(350), "north", "350 degrees is North"
+            CelestialStrings._get_cardinal_str(350), "north", "350 degrees is North"
         )
 
     def test_get_cardinal_str_from_abbr(self):
-        self.assertEqual(CelestialStrings.get_cardinal_str_from_abbr("N"), "north")
+        self.assertEqual(CelestialStrings._get_cardinal_str_from_abbr("N"), "north")
         self.assertEqual(
-            CelestialStrings.get_cardinal_str_from_abbr("SSE"), "south southeast"
+            CelestialStrings._get_cardinal_str_from_abbr("SSE"), "south southeast"
         )
 
     def test_get_event_message(self):

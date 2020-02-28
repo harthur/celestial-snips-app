@@ -22,8 +22,8 @@ INTENT_CONFIDENCE_THRESHOLD = 0.45
 
 
 class CelestialApp:
-    """
-    Handlers for intents for a "Celestial" Snips voice assistant.
+    """Handlers for intents for a "Celestial" Snips voice assistant.
+
     Reports Moon, Sun etc. rising and setting times as well as cardinal directions,
     current moon phase, and next full or new moons.
     """
